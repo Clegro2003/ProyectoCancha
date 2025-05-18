@@ -1,0 +1,6 @@
+C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\ENTITY\bin\Debug\ENTITY.dll
+C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\ENTITY\bin\Debug\ENTITY.pdb
+C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\ENTITY\obj\Debug\ENTITY.csproj.AssemblyReference.cache
+C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\ENTITY\obj\Debug\ENTITY.csproj.CoreCompileInputs.cache
+C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\ENTITY\obj\Debug\ENTITY.dll
+C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\ENTITY\obj\Debug\ENTITY.pdb
