@@ -14,6 +14,7 @@ namespace GUI
     public partial class FrmConsultaUsuario: Form
     {
         UsuarioService usuarioService;
+        ReservaService r = new ReservaService();
         public FrmConsultaUsuario()
         {
             InitializeComponent();
@@ -22,7 +23,8 @@ namespace GUI
 
         private void CargarUsuario()
         {
-            var lista = usuarioService.Consultar();
+            //var lista = usuarioService.Consultar();
+            var lista = r.Consulta();
 
             dgv.DataSource = lista;
         }

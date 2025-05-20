@@ -67,8 +67,8 @@ namespace DAL
                     IdCancha = reader.GetInt32(reader.GetOrdinal("id_cancha")),
                     IdUsuario = reader.GetInt32(reader.GetOrdinal("id_usuario")),
                     Fecha = reader.GetDateTime(reader.GetOrdinal("fecha")),
-                    HoraInicio = reader.GetTimeSpan(reader.GetOrdinal("hora_inicio")),
-                    HoraFin = reader.GetTimeSpan(reader.GetOrdinal("hora_fin")),
+                    HoraInicio = reader.GetTimeSpan(reader.GetOrdinal("horainicio")),
+                    HoraFin = reader.GetTimeSpan(reader.GetOrdinal("horafin")),
                     Estado = reader.GetString(reader.GetOrdinal("estado"))
                 });
             }

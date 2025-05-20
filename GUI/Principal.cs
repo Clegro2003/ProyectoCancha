@@ -13,11 +13,11 @@ namespace GUI
 {
     public partial class Principal: Form
     {
-        BotService botService;
+        BotPrincipal botService;
         public Principal()
         {
             InitializeComponent();
-            botService = new BotService();
+            botService = new BotPrincipal();
         }
 
         private void mENUUSUARIOToolStripMenuItem_Click(object sender, EventArgs e)
@@ -34,7 +34,7 @@ namespace GUI
 
         private void Principal_Load(object sender, EventArgs e)
         {
-            botService.Bot();
+            botService.Iniciar();
         }
 
         private void button1_Click(object sender, EventArgs e)
