@@ -1,4 +1,4 @@
--- Crear Tabla Usuario
+-- Crear Tabla Usuario, primera tabla a crear
 CREATE TABLE usuario(
 	usuario_id SERIAL PRIMARY KEY,
 	chatid TEXT NOT NULL,
@@ -8,6 +8,28 @@ CREATE TABLE usuario(
     telefono VARCHAR(50) NOT NULL
 );
 
+-- Segunda tabla a crear
+CREATE TABLE tipocancha (
+    id_tipoCancha SERIAL PRIMARY KEY,
+    nombre_cancha VARCHAR(20) CHECK (nombre_cancha IN ('CON TECHO', 'SIN TECHO'))
+);
+
+-- Tercera tabla a crear
+CREATE TABLE metodopago (
+    id_metodopago SERIAL PRIMARY KEY,
+    nombre_metodopago VARCHAR(50) NOT NULL
+);
+
+-- cuarta tabla a crear
+CREATE TABLE cancha (
+    id_cancha SERIAL PRIMARY KEY,
+    id_tipocancha INT NOT NULL,
+    estado VARCHAR(20) CHECK (estado IN ('DISPONIBLE', 'OCUPADO')),
+    precio numeric(10, 2),
+    CONSTRAINT fk_tipo_cancha FOREIGN KEY (id_tipocancha) REFERENCES tipocancha(id_tipocancha) ON DELETE CASCADE
+);
+
+-- Quinta tabla a crear
 CREATE TABLE reserva(
 	reserva_id SERIAL PRIMARY KEY,
 	usuario_id INT NOT NULL,
@@ -20,25 +42,7 @@ CREATE TABLE reserva(
     CONSTRAINT fk_cancha FOREIGN KEY (id_cancha)REFERENCES cancha (id_cancha) ON DELETE CASCADE
 );
 
-CREATE TABLE tipocancha (
-    id_tipoCancha SERIAL PRIMARY KEY,
-    nombre_cancha VARCHAR(20) CHECK (nombre_cancha IN ('CON TECHO', 'SIN TECHO'))
-);
-
-
-CREATE TABLE cancha (
-    id_cancha SERIAL PRIMARY KEY,
-    id_tipocancha INT NOT NULL,
-    estado VARCHAR(20) CHECK (estado IN ('DISPONIBLE', 'OCUPADO', 'MANTENIMIENTO')),
-    precio numeric(10, 2),
-    CONSTRAINT fk_tipo_cancha FOREIGN KEY (id_tipocancha) REFERENCES tipocancha(id_tipocancha) ON DELETE CASCADE
-);
-
-SELECT c.id_cancha , t.nombre_cancha , precio
-FROM tipocancha t
-JOIN cancha c ON t.id_tipocancha = c.id_tipocancha
-WHERE c.estado = 'DISPONIBLE'
-
+-- Sexta tabla a crear
 CREATE TABLE pago (
     id_pago SERIAL PRIMARY KEY,
     reserva_id INT NOT NULL,
@@ -50,14 +54,5 @@ CREATE TABLE pago (
       CONSTRAINT fk_metodo_pago FOREIGN KEY (id_metodopago) REFERENCES metodoPago(id_metodopago)
 );
 
-CREATE TABLE metodopago (
-    id_metodopago SERIAL PRIMARY KEY,
-    nombre_metodopago VARCHAR(50) NOT NULL
-);
 
-drop table usuario;
-drop table reserva;
-drop table tipocancha; 
-drop table cancha;
-drop table metodopago;
-drop table pago;
+
