@@ -16,6 +16,10 @@ namespace BLL
 {
     public class BotService
     {
+        //List<ENTITY.Chat> chatIds = new List<ENTITY.Chat>();
+        Dictionary<string, string> chats = new Dictionary<string, string>();
+        
+
         TelegramBotClient botClient;
         UsuarioRepository usuarioRepo;
 
@@ -52,6 +56,8 @@ namespace BLL
 
                 if (text.ToLower() == "/start")
                 {
+                    chats.Add(chatId.ToString(), "INICIO");
+
                     await botClient.SendTextMessageAsync(
                         chatId,
                         "👋 Bienvenido. Escribe tus datos así:\n`documento, nombre, apellido, telefono`",
@@ -61,7 +67,9 @@ namespace BLL
                     return;
                 }
 
-                if (text.Split(',').Length == 4)
+
+                var contexto = chats[chatId.ToString()];
+                if (contexto == "INICIO")
                 {
                     var partes = text.Split(',');
 
@@ -74,18 +82,21 @@ namespace BLL
                     };
 
                     string resultado = usuarioRepo.Guardar(usuario);
-
+                    chats[chatId.ToString()] = "RESERVA";
                     await botClient.SendTextMessageAsync(chatId, resultado, cancellationToken: token);
 
                     if (resultado.StartsWith("Okey"))
                     {
+            
+
                         var menu = new InlineKeyboardMarkup(new[]
                         {
-                    new[] {
-                        InlineKeyboardButton.WithCallbackData("RESERVAR CANCHA"),
-                        InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA DE CANCHA")
-                    }
-                });
+                            new[] 
+                            {
+                                InlineKeyboardButton.WithCallbackData("RESERVAR CANCHA"),
+                                InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA DE CANCHA")
+                            }
+                        });
 
                         await botClient.SendTextMessageAsync(
                             chatId,
@@ -96,6 +107,48 @@ namespace BLL
                     }
 
                     return;
+                }
+
+                if (contexto == "RESERVA")
+                {
+
+                }
+                
+                if (text.Split(',').Length == 4)
+                {
+                //    var partes = text.Split(',');
+
+                //    var usuario = new Usuario
+                //    {
+                //        Documento = partes[0].Trim(),
+                //        Nombre = partes[1].Trim(),
+                //        Apellido = partes[2].Trim(),
+                //        Telefono = partes[3].Trim()
+                //    };
+
+                //    string resultado = usuarioRepo.Guardar(usuario);
+
+                //    await botClient.SendTextMessageAsync(chatId, resultado, cancellationToken: token);
+
+                //    if (resultado.StartsWith("Okey"))
+                //    {
+                //        var menu = new InlineKeyboardMarkup(new[]
+                //        {
+                //    new[] {
+                //        InlineKeyboardButton.WithCallbackData("RESERVAR CANCHA"),
+                //        InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA DE CANCHA")
+                //    }
+                //});
+
+                //        await botClient.SendTextMessageAsync(
+                //            chatId,
+                //            "✅ Registro exitoso. ¿Qué deseas hacer?",
+                //            replyMarkup: menu,
+                //            cancellationToken: token
+                //        );
+                //    }
+
+                //    return;
                 }
 
                 if (text.Split(',').Length == 3)

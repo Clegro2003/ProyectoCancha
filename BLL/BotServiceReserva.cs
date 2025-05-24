@@ -3,27 +3,39 @@ using Telegram.Bot.Types;
 using System;
 using System.Threading.Tasks;
 using ENTITY;
+using DAL;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace BLL
 {
     public class BotServicioReserva
     {
         private readonly ReservaService _reservaService = new ReservaService();
+        TipoCanchaRepository tipocancha = new TipoCanchaRepository();
+        UsuarioService usuarioService = new UsuarioService();
+        CanchaRepository canchaRepository = new CanchaRepository();
 
-        public async Task ManejarAcciones(ITelegramBotClient botClient, CallbackQuery callback)
+        
+        public async Task ManejarAcciones(ITelegramBotClient botClient, CallbackQuery callback, Dictionary<string, string> chats)
         {
             var chatId = callback.Message.Chat.Id;
 
             switch (callback.Data)
             {
-                case "RESERVAR":
+
+                case "RESERVAR CANCHA":
+                    var canchas = canchaRepository.ConsultarDisponible().Select(x => x.Id_cancha+": "+x.Nombre_Cancha+" Precio: "+x.Precio);
                     await botClient.SendTextMessageAsync(
-                        chatId,
-                        "🗓 Ingresa tu reserva en este formato:\n\n`reservar id_cancha, dd-MM-yyyy, HH:mm, HH:mm`\n\nEjemplo: `reservar 2, 21-05-2025, 14:00, 15:30`",
+                        chatId,"Tipos de canchas:\n "+
+                        String.Join("\n",canchas)+
+                        "\n🗓 Ingresa tu reserva en este formato:\n\n`tipocancha, Fecha, Hora inicio, Hora fin`\n\n" +
+                        "Ejemplo: `2, 21-05-2025, 14:00, 15:30`",
                         Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        chats[chatId.ToString()] = "RESERVA";
                     break;
 
-                case "CANCELAR":
+                case "CANCELAR RESERVA DE CANCHA":
                     await botClient.SendTextMessageAsync(
                         chatId,
                         "❌ Para cancelar una reserva, escribe:\n`cancelar ID_RESERVA`",
@@ -36,12 +48,12 @@ namespace BLL
             }
         }
 
-        public async Task ProcesarTexto(ITelegramBotClient botClient, Message message)
+        public async Task ProcesarTexto(ITelegramBotClient botClient, Message message, Dictionary<string, string> chats)
         {
             var chatId = message.Chat.Id;
             string texto = message.Text.Trim().ToLower();
-
-            if (texto.StartsWith("reservar"))
+            var contexto = chats[chatId.ToString()];
+            if (contexto == "RESERVA")
             {
                 try
                 {
@@ -49,7 +61,8 @@ namespace BLL
 
                     if (datos.Length < 4)
                     {
-                        await botClient.SendTextMessageAsync(chatId, "⚠️ Formato inválido. Usa:\n`reservar id_cancha, dd-MM-yyyy, HH:mm, HH:mm`", Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        await botClient.SendTextMessageAsync(chatId, "⚠️ Formato inválido. Usa:\n`reservar id_cancha, dd-MM-yyyy, " +
+                                                                     "HH:mm, HH:mm`", Telegram.Bot.Types.Enums.ParseMode.Markdown);
                         return;
                     }
 
@@ -59,17 +72,21 @@ namespace BLL
                     TimeSpan horaFin = TimeSpan.Parse(datos[3].Trim());
 
                     // Simulación del usuario, puedes usar tu lógica para obtenerlo dinámicamente
-                    int idUsuario = 1;
-
-                    Reserva reserva = new Reserva
+                    var usuario = usuarioService.ConsultarPorChatID(chatId.ToString());
+                    if (usuario == null)
                     {
-                        IdCancha = idCancha,
-                        IdUsuario = idUsuario,
-                        Fecha = fecha,
-                        HoraInicio = horaInicio,
-                        HoraFin = horaFin,
-                        Estado = "Activa"
-                    };
+                        await botClient.SendTextMessageAsync(chatId, "Usuario no reconocido.");
+                        return;
+                    }
+                        Reserva reserva = new Reserva
+                        {
+                            IdCancha = idCancha,
+                            IdUsuario = usuario.Usuario_id,
+                            Fecha = fecha,
+                            HoraInicio = horaInicio,
+                            HoraFin = horaFin,
+                            Estado = "PENDIENTE"
+                        };
 
                     string resultado = _reservaService.Guardar(reserva);
 

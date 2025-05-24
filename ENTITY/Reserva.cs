@@ -15,9 +15,23 @@ namespace ENTITY
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
         public string Estado { get; set; }
-
         public Cancha Cancha { get; set; }
-        public Usuario Usuario { get; set; }
-        public List<Pago> Pagos = new List<Pago>();
+
+        public Reserva()
+        {
+            
+        }
+
+        public Reserva(int idReserva, int idCancha, int idUsuario, DateTime fecha, TimeSpan horaInicio, TimeSpan horaFin, string estado, Cancha cancha)
+        {
+            IdReserva = idReserva;
+            IdCancha = idCancha;
+            IdUsuario = idUsuario;
+            Fecha = fecha;
+            HoraInicio = horaInicio;
+            HoraFin = horaFin;
+            Estado = estado;
+            Cancha = cancha;
+        }
     }
 }

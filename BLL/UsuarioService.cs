@@ -26,5 +26,10 @@ namespace BLL
         {
             return usuarioRepository.Guardar(entity);
         }
+
+        public Usuario ConsultarPorChatID(string chatID)
+        {
+            return usuarioRepository.ConsultarPorChatID(chatID);
+        }
     }
 }

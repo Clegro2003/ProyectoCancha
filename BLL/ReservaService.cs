@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class ReservaService
+    public class ReservaService:IService<Reserva>
     {
         private readonly ReservaRepository _reservaRepo;
 
@@ -22,7 +22,7 @@ namespace BLL
             return _reservaRepo.Guardar(reserva);
         }
 
-        public List<Reserva> Consulta()
+        public List<Reserva> Consultar()
         {
             return _reservaRepo.Consultar();
         }

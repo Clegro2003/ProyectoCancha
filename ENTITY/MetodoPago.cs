@@ -11,6 +11,15 @@ namespace ENTITY
         public int IdMetodoPago { get; set; }
         public string NombreMetodoPago { get; set; }
 
-        public List<Pago> Pagos = new List<Pago>();
+        public MetodoPago()
+        {
+            
+        }
+
+        public MetodoPago(int idMetodoPago, string nombreMetodoPago)
+        {
+            IdMetodoPago = idMetodoPago;
+            NombreMetodoPago = nombreMetodoPago;
+        }
     }
 }

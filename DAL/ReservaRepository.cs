@@ -12,14 +12,16 @@ namespace DAL
     {
         public string Guardar(Reserva entity)
         {
-            if (entity == null)
+            if (entity == null) 
+            { 
                 return "Reserva inválida";
+            }
 
             string sentencia = @"
                 INSERT INTO postgres.""CanchasDB"".reserva
-                (id_cancha, id_usuario, fecha, hora_inicio, hora_fin, estado)
+                (id_cancha, usuario_id, fecha, horainicio, horafin, estado)
                 VALUES(@id_cancha, @id_usuario, @fecha, @hora_inicio, @hora_fin, @estado)
-                RETURNING id_reserva";
+                RETURNING reserva_id";
 
             using (NpgsqlCommand cmd = new NpgsqlCommand(sentencia, conexion))
             {

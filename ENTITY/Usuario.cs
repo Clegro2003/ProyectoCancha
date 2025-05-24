@@ -8,14 +8,12 @@ namespace ENTITY
 {
     public class Usuario
     {
-        //public int IdUsuario { get; set; }
+        public int Usuario_id { get; set; }
+        public string ChatID { get; set; }
         public string Documento { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Telefono { get; set; }
-
-        public List<Reserva> Reservas = new List<Reserva>();
-        public List<Notificacion> Notificaciones = new List<Notificacion>();
 
         public Usuario()
         {

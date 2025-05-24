@@ -17,5 +17,22 @@ namespace ENTITY
 
         public Reserva Reserva { get; set; }
         public MetodoPago MetodoPago { get; set; }
+
+        public Pago()
+        {
+            
+        }
+
+        public Pago(int idPago, int idReserva, int idMetodoPago, DateTime fecha, string estado, decimal monto, Reserva reserva, MetodoPago metodoPago)
+        {
+            IdPago = idPago;
+            IdReserva = idReserva;
+            IdMetodoPago = idMetodoPago;
+            Fecha = fecha;
+            Estado = estado;
+            Monto = monto;
+            Reserva = reserva;
+            MetodoPago = metodoPago;
+        }
     }
 }

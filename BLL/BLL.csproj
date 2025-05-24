@@ -60,6 +60,7 @@
     <Compile Include="BotPrincipal.cs" />
     <Compile Include="BotService.cs" />
     <Compile Include="BotServiceReserva.cs" />
+    <Compile Include="CanchaService.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="ReservaService.cs" />
     <Compile Include="TipoCanchaService.cs" />

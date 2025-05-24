@@ -11,6 +11,15 @@ namespace ENTITY
         public int TipoId { get; set; }
         public string NombreCancha { get; set; }
 
-        public List<Cancha> Canchas = new List<Cancha>();
+        public TipoCancha()
+        {
+            
+        }
+
+        public TipoCancha(int tipoId, string nombreCancha)
+        {
+            TipoId = tipoId;
+            NombreCancha = nombreCancha;
+        }
     }
 }

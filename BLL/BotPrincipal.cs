@@ -7,11 +7,13 @@ using Telegram.Bot.Polling;
 using Telegram.Bot.Types.ReplyMarkups;
 using ENTITY;
 using DAL;
+using System.Collections.Generic;
 
 namespace BLL
 {
     public class BotPrincipal
     {
+        Dictionary<string, string> chats = new Dictionary<string, string>();
         private TelegramBotClient botClient;
         private UsuarioRepository usuarioRepo;
         private BotServicioReserva reservaService;
@@ -33,43 +35,57 @@ namespace BLL
 
         private async Task OnUpdate(ITelegramBotClient client, Update update, CancellationToken token)
         {
-            if (update.Message is Message message && message.Text != null)
+            if (update.Message is Telegram.Bot.Types.Message message)
             {
-                var text = message.Text.Trim();
+                string text = message.Text?.Trim();
                 var chatId = message.Chat.Id;
 
                 if (text.ToLower() == "/start")
                 {
+                    chats.Add(chatId.ToString(), "INICIO");
+
                     await botClient.SendTextMessageAsync(
                         chatId,
-                        "👋 Hola. Ingresa tus datos:\n`documento, nombre, apellido, telefono`",
-                        Telegram.Bot.Types.Enums.ParseMode.Markdown,
-                        cancellationToken: token);
+                        "👋 Bienvenido. Escribe tus datos así:\n`documento, nombre, apellido, telefono`",
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
+                        cancellationToken: token
+                    );
                     return;
                 }
 
-                // Registro de usuario
-                var partes = text.Split(',');
-                if (partes.Length == 4)
+
+                if (!chats.ContainsKey(chatId.ToString()))
+                    return;
+
+                var contexto = chats[chatId.ToString()];
+                
+                if (contexto == "INICIO")
                 {
+
+                    var partes = text.Split(',');
+
                     var usuario = new Usuario
                     {
+                        ChatID = chatId.ToString(),
                         Documento = partes[0].Trim(),
                         Nombre = partes[1].Trim(),
                         Apellido = partes[2].Trim(),
                         Telefono = partes[3].Trim()
                     };
 
-                    var resultado = usuarioRepo.Guardar(usuario);
+                    string resultado = usuarioRepo.Guardar(usuario);
                     await botClient.SendTextMessageAsync(chatId, resultado, cancellationToken: token);
 
                     if (resultado.StartsWith("Okey"))
                     {
+
+
                         var menu = new InlineKeyboardMarkup(new[]
                         {
-                            new[] {
-                                InlineKeyboardButton.WithCallbackData("RESERVAR"),
-                                InlineKeyboardButton.WithCallbackData("CANCELAR")
+                            new[]
+                            {
+                                InlineKeyboardButton.WithCallbackData("RESERVAR CANCHA"),
+                                InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA DE CANCHA")
                             }
                         });
 
@@ -83,22 +99,17 @@ namespace BLL
 
                     return;
                 }
-                if (text.ToLower().StartsWith("reservar") || text.ToLower().StartsWith("cancelar"))
-                {
-                    await reservaService.ProcesarTexto(botClient, message);
-                    return;
-                }
-                await botClient.SendTextMessageAsync(chatId, "❓ No entendí tu mensaje. Usa /start para comenzar.", cancellationToken: token);
+
+                await reservaService.ProcesarTexto(botClient, message, chats);
+                
             }
 
             // Manejo de botones
             if (update.CallbackQuery != null)
             {
-                await reservaService.ManejarAcciones(botClient, update.CallbackQuery);
+                await reservaService.ManejarAcciones(botClient, update.CallbackQuery,chats);
             }
             //await reservaService.ProcesarTexto(botClient, message);
-
-            
 
 
         }
