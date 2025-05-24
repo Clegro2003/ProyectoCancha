@@ -2,6 +2,7 @@
 using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,28 @@ namespace DAL
     {
         public List<Cancha> Consultar()
         {
-            return null; 
+            string sentencia = "";
+            NpgsqlCommand cmd = new NpgsqlCommand(sentencia, conexion);
+            AbrirConexion();
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+
+            List<Cancha> canchas = new List<Cancha>();
+            while (reader.Read())
+            {
+                canchas.Add
+                (
+                    new Cancha
+                    {
+                        Id_cancha = reader.GetInt32(reader.GetOrdinal("id_cancha")),
+                        Nombre_Cancha = reader.GetString(reader.GetOrdinal("nombre_cancha")),
+                        Estado = reader.GetString(reader.GetOrdinal("estado")),
+                        Precio = reader.GetDecimal(reader.GetOrdinal("precio"))
+                    }
+                );
+
+            }
+
+            return canchas;
         }
 
         public List<Cancha> ConsultarDisponible()

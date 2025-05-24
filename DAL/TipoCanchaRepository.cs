@@ -12,7 +12,7 @@ namespace DAL
     {
         public List<TipoCancha> Consultar()
         {
-            string sentencia = "SELECT * FROM postgres.\"CanchasDB\".tipocancha";
+            string sentencia = "SELECT id_tipocancha,nombre_cancha FROM postgres.\"CanchasDB\".tipocancha";
             var lista = new List<TipoCancha>();
 
             using (var cmd = new NpgsqlCommand(sentencia, conexion))

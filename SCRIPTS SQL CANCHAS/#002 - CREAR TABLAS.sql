@@ -36,8 +36,8 @@ CREATE TABLE reserva(
 	id_cancha int NOT NULL,
 	CONSTRAINT fk_usuario FOREIGN KEY (usuario_id) REFERENCES usuario (usuario_id) ON DELETE CASCADE,
 	fecha DATE NOT NULL,
-	horainicio VARCHAR(20) NOT NULL,
-    horafin VARCHAR(20) NOT NULL,
+	horainicio TIME NOT NULL,
+    horafin TIME NOT NULL,
     estado VARCHAR(50) CHECK(estado IN ('PAGADO', 'PENDIENTE') ),
     CONSTRAINT fk_cancha FOREIGN KEY (id_cancha)REFERENCES cancha (id_cancha) ON DELETE CASCADE
 );
@@ -50,8 +50,8 @@ CREATE TABLE pago (
     fecha DATE NOT NULL,
     estado VARCHAR(20),
     monto NUMERIC(10, 2),
-      CONSTRAINT fk_reserva_pago FOREIGN KEY (reserva_id)REFERENCES reserva(reserva_id),
-      CONSTRAINT fk_metodo_pago FOREIGN KEY (id_metodopago) REFERENCES metodoPago(id_metodopago)
+    CONSTRAINT fk_reserva_pago FOREIGN KEY (reserva_id)REFERENCES reserva(reserva_id),
+	CONSTRAINT fk_metodo_pago FOREIGN KEY (id_metodopago) REFERENCES metodoPago(id_metodopago)
 );
 
 

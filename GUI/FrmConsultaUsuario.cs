@@ -24,7 +24,7 @@ namespace GUI
         private void CargarUsuario()
         {
             //var lista = usuarioService.Consultar();
-            var lista = r.Consulta();
+            var lista = r.Consultar();
 
             dgv.DataSource = lista;
         }

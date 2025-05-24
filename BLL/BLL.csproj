@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BotPrincipal.cs" />
-    <Compile Include="BotService.cs" />
     <Compile Include="BotServiceReserva.cs" />
     <Compile Include="CanchaService.cs" />
     <Compile Include="IService.cs" />

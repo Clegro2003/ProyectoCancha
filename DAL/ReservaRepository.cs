@@ -55,7 +55,8 @@ namespace DAL
 
         public List<Reserva> Consultar()
         {
-            string sentencia = "SELECT * FROM postgres.\"CanchasDB\".reserva";
+            string sentencia = "SELECT reserva_id,usuario_id, id_cancha,fecha,horainicio,horafin, estado " +
+                                "FROM postgres.\"CanchasDB\".reserva";
             NpgsqlCommand cmd = new NpgsqlCommand(sentencia, conexion);
             AbrirConexion();
             NpgsqlDataReader reader = cmd.ExecuteReader();
@@ -65,9 +66,9 @@ namespace DAL
             {
                 reservas.Add(new Reserva
                 {
-                    IdReserva = reader.GetInt32(reader.GetOrdinal("id_reserva")),
+                    IdReserva = reader.GetInt32(reader.GetOrdinal("reserva_id")),
+                    IdUsuario = reader.GetInt32(reader.GetOrdinal("usuario_id")),
                     IdCancha = reader.GetInt32(reader.GetOrdinal("id_cancha")),
-                    IdUsuario = reader.GetInt32(reader.GetOrdinal("id_usuario")),
                     Fecha = reader.GetDateTime(reader.GetOrdinal("fecha")),
                     HoraInicio = reader.GetTimeSpan(reader.GetOrdinal("horainicio")),
                     HoraFin = reader.GetTimeSpan(reader.GetOrdinal("horafin")),
