@@ -1,1 +1,21 @@
-.vs
+# Build results
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+
+# VS files
+.vs/
+*.user
+*.suo
+
+# Backup files
+*.bak
+*.tmp
+
+# Others
+*.csproj.FileListAbsolute.txt
+*.AssemblyReference.cache
