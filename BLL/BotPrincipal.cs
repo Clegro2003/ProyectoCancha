@@ -42,7 +42,8 @@ namespace BLL
 
                 if (text.ToLower() == "/start")
                 {
-                    chats.Add(chatId.ToString(), "INICIO");
+                    //chats.Add(chatId.ToString(), "INICIO");
+                    chats[chatId.ToString()] = "INICIO";
 
                     await botClient.SendTextMessageAsync(
                         chatId,

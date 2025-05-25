@@ -29,7 +29,7 @@ namespace DAL
 
         public Usuario ConsultarPorChatID(string chatId)
         {
-            string sentencia = "SELECT usuario_id,documento,nombre,apellido FROM postgres.\"CanchasDB\".usuario WHERE chatid = @chatid";
+            string sentencia = "SELECT usuario_id,chatid,documento,nombre,apellido,telefono FROM postgres.\"CanchasDB\".usuario WHERE chatid = @chatid";
 
             NpgsqlCommand cmd = new NpgsqlCommand(sentencia, conexion);
             cmd.Parameters.AddWithValue("@chatid", chatId);
@@ -85,8 +85,8 @@ namespace DAL
                 {
                     AbrirConexion();
                     object result = cmd.ExecuteScalar(); // Obtiene el ID insertado
-                    return result != null ? $"Usuario insertado correctamente con ID {result}" : "No se ha insertado el usuario.";
-                    //return result != null ? $"Okey... Perfecto" : "No se ha insertado el usuario.";
+                    //return result != null ? $"Usuario insertado correctamente con ID {result}" : "No se ha insertado el usuario.";
+                    return result != null ? $"Okey... Perfecto" : "No se ha insertado el usuario.";
                 }
                 catch (PostgresException ex)
                 {

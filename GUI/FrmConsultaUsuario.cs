@@ -23,9 +23,8 @@ namespace GUI
 
         private void CargarUsuario()
         {
-            //var lista = usuarioService.Consultar();
             var lista = r.Consultar();
-
+            Console.WriteLine($"🔍 Total reservas consultadas: {lista.Count}");
             dgv.DataSource = lista;
         }
 

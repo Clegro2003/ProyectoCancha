@@ -22,6 +22,15 @@ namespace BLL
             return _reservaRepo.Guardar(reserva);
         }
 
+        public List<Reserva> ConsultarReservas(int chat)
+        {
+            return _reservaRepo.ConsultarReservas(chat);
+        }
+
+        public string Cancelar(int id)
+        {
+            return _reservaRepo.Eliminar(id);
+        }
         public List<Reserva> Consultar()
         {
             return _reservaRepo.Consultar();
