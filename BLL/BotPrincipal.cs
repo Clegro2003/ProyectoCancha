@@ -40,8 +40,36 @@ namespace BLL
                 string text = message.Text?.Trim();
                 var chatId = message.Chat.Id;
 
-                if (text.ToLower() == "/start")
+                if (text.ToLower() == "hola")
                 {
+                    var usuarioExistente = usuarioRepo.ConsultarPorChatID(chatId.ToString());
+                    if (usuarioExistente != null)
+                    {
+                        chats[chatId.ToString()] = "MENU";
+
+                        var menu = new InlineKeyboardMarkup(new[]
+                        {
+                            new[]
+                            {
+                                InlineKeyboardButton.WithCallbackData("RESERVAR CANCHA"),
+                                InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA DE CANCHA")
+                            }
+                        });
+
+                        await botClient.SendTextMessageAsync
+                        (
+                            chatId,
+                            $"👋 ¡Hola {usuarioExistente.Nombre}!",
+                            cancellationToken: token
+                        );
+
+                        await botClient.SendTextMessageAsync(chatId, "¿Qué deseas hacer ahora?", replyMarkup: menu, 
+                                                             cancellationToken: token);
+
+                        return;
+
+                    }
+
                     chats[chatId.ToString()] = "INICIO";
 
                     await botClient.SendTextMessageAsync(
@@ -52,6 +80,7 @@ namespace BLL
                     );
                     return;
                 }
+
 
 
                 if (!chats.ContainsKey(chatId.ToString()))
@@ -106,7 +135,7 @@ namespace BLL
 
             if (update.CallbackQuery != null)
             {
-                await reservaService.ManejarAcciones(botClient, update.CallbackQuery,chats);
+                await reservaService.ManejarAcciones(botClient, update.CallbackQuery,chats, token);
             }
 
 

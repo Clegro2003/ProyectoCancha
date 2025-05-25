@@ -7,6 +7,9 @@ using DAL;
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Telegram.Bot.Types.ReplyMarkups;
+using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace BLL
 {
@@ -18,29 +21,50 @@ namespace BLL
         CanchaRepository canchaRepository = new CanchaRepository();
 
         
-        public async Task ManejarAcciones(ITelegramBotClient botClient, CallbackQuery callback, Dictionary<string, string> chats)
+        public async Task ManejarAcciones(ITelegramBotClient botClient, CallbackQuery callback, Dictionary<string, string> chats, CancellationToken token)
         {
             var chatId = callback.Message.Chat.Id;
             Reserva reserva = new Reserva();
-
+            var usuario = usuarioService.ConsultarPorChatID(chatId.ToString());
+            
             switch (callback.Data)
             {
 
                 case "RESERVAR CANCHA":
                     var canchas = canchaRepository.ConsultarDisponible().Select(x => x.Id_cancha + ": " + x.Nombre_Cancha + " " +
-                                                                                 "Precio: " + x.Precio);
-                    await botClient.SendTextMessageAsync(
-                        chatId, "Tipos de canchas:\n " +
-                        String.Join("\n", canchas) +
-                        "\n🗓 Ingresa tu reserva en este formato:\n\n`tipocancha, Fecha, Hora inicio, Hora fin`\n\n" +
-                        "Ejemplo: `2, 21-05-2025, 14:00, 15:30`",
-                        Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        chats[chatId.ToString()] = "RESERVA";
+                                                                                "Precio: " + x.Precio);
+
+                    //var tipocacancha = new InlineKeyboardMarkup(new[]
+                    //{
+                    //    new[]
+                    //    {
+                    //        InlineKeyboardButton.WithCallbackData("CON TECHO"),
+                    //        InlineKeyboardButton.WithCallbackData("SIN TECHO")
+                    //    }
+                    //});
+
+
+                    await botClient.SendTextMessageAsync(chatId, "TIPOS DE CANCHA", replyMarkup: tipocacancha,
+                                                             cancellationToken: token);
+                    //await botClient.SendTextMessageAsync(chatId,$"¿Cual deseas {usuario.Nombre} {usuario.Apellido} ?", 
+                    //                                        Telegram.Bot.Types.Enums.ParseMode.Markdown);
+
+                    chats[chatId.ToString()] = "RESERVA";
 
                     break;
 
+                case "CON TECHO":
+                case "SIN TECHO":
+                    var tipoSeleccionado = callback.Data;
+                    var tipo = tipocancha.ConsultarPorNombre(tipoSeleccionado);
+
+                    //var canchasFiltradas = canchaRepository.ConsultarDisponible()
+                    //                    .Where(c => c.TipoCancha == tipo.).Select(c => $"{c.Id_cancha}: {c.Nombre_Cancha} - ${c.Precio}");
+
+                    chats[chatId.ToString()] = "RESERVA";
+                    break;
+
                 case "CANCELAR RESERVA DE CANCHA":
-                    var usuario = usuarioService.ConsultarPorChatID(chatId.ToString());
                     if (usuario == null)
                     {
                         await botClient.SendTextMessageAsync(chatId, "⚠️ No estás registrado.");

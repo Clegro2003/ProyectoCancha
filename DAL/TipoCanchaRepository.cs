@@ -34,5 +34,28 @@ namespace DAL
 
             return lista;
         }
+
+        public string ConsultarPorNombre(string tipoCancha)
+        {
+            string resultado = null;
+
+            string sentencia = "SELECT nombre_cancha FROM \"CanchasDB\".tipocancha WHERE nombre_cancha = @nombre";
+            using (var cmd = new NpgsqlCommand(sentencia, conexion))
+            {
+                cmd.Parameters.AddWithValue("@nombre", tipoCancha);
+
+                AbrirConexion();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        resultado = reader.GetString(reader.GetOrdinal("nombre_cancha"));
+                    }
+                }
+                CerrarConexion();
+            }
+
+            return resultado;
+        }
     }
 }
