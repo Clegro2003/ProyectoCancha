@@ -42,7 +42,6 @@ namespace BLL
 
                 if (text.ToLower() == "/start")
                 {
-                    //chats.Add(chatId.ToString(), "INICIO");
                     chats[chatId.ToString()] = "INICIO";
 
                     await botClient.SendTextMessageAsync(
@@ -105,12 +104,10 @@ namespace BLL
                 
             }
 
-            // Manejo de botones
             if (update.CallbackQuery != null)
             {
                 await reservaService.ManejarAcciones(botClient, update.CallbackQuery,chats);
             }
-            //await reservaService.ProcesarTexto(botClient, message);
 
 
         }

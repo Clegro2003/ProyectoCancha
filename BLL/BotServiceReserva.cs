@@ -98,7 +98,6 @@ namespace BLL
                     TimeSpan horaInicio = TimeSpan.Parse(datos[2].Trim());
                     TimeSpan horaFin = TimeSpan.Parse(datos[3].Trim());
 
-                    // Simulación del usuario, puedes usar tu lógica para obtenerlo dinámicamente
                     var usuario = usuarioService.ConsultarPorChatID(chatId.ToString());
                     if (usuario == null)
                     {
@@ -125,7 +124,6 @@ namespace BLL
                 }
             }else if (contexto == "CANCELAR")
             {
-                Console.WriteLine("mhgfgfdsdfnngfdDNGFDSDBNBDSVBNBCVBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
                 try
                 {
                     int idReserva = int.Parse(texto.Trim());
