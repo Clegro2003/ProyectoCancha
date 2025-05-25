@@ -4,3 +4,9 @@ C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\ENTITY\obj\Debug\EN
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\ENTITY\obj\Debug\ENTITY.csproj.CoreCompileInputs.cache
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\ENTITY\obj\Debug\ENTITY.dll
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\ENTITY\obj\Debug\ENTITY.pdb
+C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\ENTITY\bin\Debug\ENTITY.dll
+C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\ENTITY\bin\Debug\ENTITY.pdb
+C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\ENTITY\obj\Debug\ENTITY.csproj.AssemblyReference.cache
+C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\ENTITY\obj\Debug\ENTITY.csproj.CoreCompileInputs.cache
+C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\ENTITY\obj\Debug\ENTITY.dll
+C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\ENTITY\obj\Debug\ENTITY.pdb
