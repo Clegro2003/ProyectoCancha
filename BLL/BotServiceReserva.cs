@@ -19,49 +19,28 @@ namespace BLL
         TipoCanchaRepository tipocancha = new TipoCanchaRepository();
         UsuarioService usuarioService = new UsuarioService();
         CanchaRepository canchaRepository = new CanchaRepository();
+        UsuarioRepository usuarioRepo = new UsuarioRepository();
 
-        
+
+
         public async Task ManejarAcciones(ITelegramBotClient botClient, CallbackQuery callback, Dictionary<string, string> chats, CancellationToken token)
         {
             var chatId = callback.Message.Chat.Id;
             Reserva reserva = new Reserva();
             var usuario = usuarioService.ConsultarPorChatID(chatId.ToString());
-            
+
             switch (callback.Data)
             {
 
                 case "RESERVAR CANCHA":
-                    var canchas = canchaRepository.ConsultarDisponible().Select(x => x.Id_cancha + ": " + x.Nombre_Cancha + " " +
-                                                                                "Precio: " + x.Precio);
+                    var canchas = tipocancha.Consultar();
 
-                    //var tipocacancha = new InlineKeyboardMarkup(new[]
-                    //{
-                    //    new[]
-                    //    {
-                    //        InlineKeyboardButton.WithCallbackData("CON TECHO"),
-                    //        InlineKeyboardButton.WithCallbackData("SIN TECHO")
-                    //    }
-                    //});
-
-
-                    await botClient.SendTextMessageAsync(chatId, "TIPOS DE CANCHA", replyMarkup: tipocacancha,
-                                                             cancellationToken: token);
-                    //await botClient.SendTextMessageAsync(chatId,$"¿Cual deseas {usuario.Nombre} {usuario.Apellido} ?", 
-                    //                                        Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                    await botClient.SendTextMessageAsync(chatId, "TIPO DE CANCHA\n " + String.Join("\n", canchas)
+                                                            + $"\n¿Cual deseas {usuario.Nombre} {usuario.Apellido} ?",
+                                                            Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
                     chats[chatId.ToString()] = "RESERVA";
 
-                    break;
-
-                case "CON TECHO":
-                case "SIN TECHO":
-                    var tipoSeleccionado = callback.Data;
-                    var tipo = tipocancha.ConsultarPorNombre(tipoSeleccionado);
-
-                    //var canchasFiltradas = canchaRepository.ConsultarDisponible()
-                    //                    .Where(c => c.TipoCancha == tipo.).Select(c => $"{c.Id_cancha}: {c.Nombre_Cancha} - ${c.Precio}");
-
-                    chats[chatId.ToString()] = "RESERVA";
                     break;
 
                 case "CANCELAR RESERVA DE CANCHA":
@@ -90,9 +69,32 @@ namespace BLL
                         chatId,
                         $"Estas son tus reservas pendientes:\n{lista}\n\nEscribe el ID que deseas cancelar.",
                         Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        chats[chatId.ToString()] = "CANCELAR";
+                    chats[chatId.ToString()] = "CANCELAR";
                     break;
 
+                case "REALIZAR PAGO DE RESERVA":
+                    await botClient.SendTextMessageAsync(chatId, "LISTA DE RERSERVAS A PAGAR PENDIENTES");
+
+                    var Reservas = _reservaService.ConsultarReservas(usuario.Usuario_id);
+                    var Pendientes = Reservas.Where(r => r.Estado != null && r.Estado.Trim().ToUpper() == "PENDIENTE").ToList();
+
+                    await botClient.SendTextMessageAsync(chatId, $"🔍 Total reservas encontradas: {Pendientes.Count}");
+                    if (Pendientes.Count == 0)
+                    {
+                        await botClient.SendTextMessageAsync(chatId, "⛔ No tienes reservas pendientes.");
+                        return;
+                    }
+
+                    var listaPagos = string.Join("\n", Pendientes.Select(r =>
+                        $"ID: {r.IdReserva} | Cancha: {r.IdCancha} | Fecha: {r.Fecha:dd-MM-yyyy} {r.HoraInicio}-{r.HoraFin}"));
+
+                    await botClient.SendTextMessageAsync(
+                        chatId,
+                        $"Estas son tus reservas pendientes:\n{listaPagos}\n\nEscribe el ID de la reserva que deseas pagar.",
+                        Telegram.Bot.Types.Enums.ParseMode.Markdown);
+
+                    chats[chatId.ToString()] = "REALIZAR_PAGO";
+                    break;
                 default:
                     await botClient.SendTextMessageAsync(chatId, "⚠️ Acción no reconocida.");
                     break;
@@ -104,49 +106,95 @@ namespace BLL
             var chatId = message.Chat.Id;
             string texto = message.Text.Trim().ToLower();
             var contexto = chats[chatId.ToString()];
+            var usuario = usuarioService.ConsultarPorChatID(chatId.ToString());
+
+
             if (contexto == "RESERVA")
             {
-                try
-                {
-                    string[] datos = texto.Replace("reservar", "").Split(',');
 
-                    if (datos.Length < 4)
+                if (texto == "1" || texto == "2")
+                {
+                    int tipoId = int.Parse(texto);
+
+                    var canchasFiltradas = canchaRepository.ConsultarDisponible()
+                                            .Where(c => c.TipoCanchaId.TipoId == tipoId).ToList();
+
+                    if (canchasFiltradas.Count == 0)
                     {
-                        await botClient.SendTextMessageAsync(chatId, "⚠️ Formato inválido. Usa:\n`reservar id_cancha, dd-MM-yyyy, " +
-                                                                     "HH:mm, HH:mm`", Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        await botClient.SendTextMessageAsync(chatId, "⛔ No hay canchas disponibles para ese tipo.");
                         return;
                     }
 
+                    var mensaje = "🏟️ Canchas disponibles:\n\n" +
+                                  string.Join("\n", canchasFiltradas.Select(c =>
+                                     $"ID: {c.Id_cancha} | Precio: {c.Precio}"));
+
+                    mensaje += "\n\n📝 Ahora escribe en el formato:\n`id_cancha, dd-MM-yyyy, HH:mm, HH:mm`";
+
+                    await botClient.SendTextMessageAsync(chatId, mensaje, Telegram.Bot.Types.Enums.ParseMode.Markdown);
+
+                    // Continúa en el mismo contexto "RESERVA"
+                    return;
+                }
+
+                // Paso 2: Procesar reserva si ya ingresó id_cancha, fecha, horaInicio, horaFin
+                string[] datos = texto.Replace("reservar", "").Split(',');
+                if (datos.Length < 4)
+                {
+                    await botClient.SendTextMessageAsync(chatId, "⚠️ Formato inválido. Usa:\n`id_cancha, dd-MM-yyyy, HH:mm, HH:mm`",
+                        Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                    return;
+                }
+
+                try
+                {
                     int idCancha = int.Parse(datos[0].Trim());
                     DateTime fecha = DateTime.ParseExact(datos[1].Trim(), "dd-MM-yyyy", null);
                     TimeSpan horaInicio = TimeSpan.Parse(datos[2].Trim());
                     TimeSpan horaFin = TimeSpan.Parse(datos[3].Trim());
 
-                    var usuario = usuarioService.ConsultarPorChatID(chatId.ToString());
-                    if (usuario == null)
+                    if (fecha.Date < DateTime.Today)
                     {
-                        await botClient.SendTextMessageAsync(chatId, "Usuario no reconocido.");
+                        await botClient.SendTextMessageAsync(chatId, "❌ No puedes reservar una fecha pasada.");
                         return;
                     }
-                        Reserva reserva = new Reserva
-                        {
-                            IdCancha = idCancha,
-                            IdUsuario = usuario.Usuario_id,
-                            Fecha = fecha,
-                            HoraInicio = horaInicio,
-                            HoraFin = horaFin,
-                            Estado = "PENDIENTE"
-                        };
+
+                    if (horaInicio >= horaFin)
+                    {
+                        await botClient.SendTextMessageAsync(chatId, "❌ La hora de inicio debe ser menor que la hora de fin.");
+                        return;
+                    }
+
+                    // Verificar conflictos de horario
+                    var reservasExistentes = _reservaService.ConsultarPorCanchaYFecha(idCancha, fecha);
+
+                    var hayConflicto = reservasExistentes.Any(r => horaInicio < r.HoraFin && horaFin > r.HoraInicio);
+
+                    if (hayConflicto)
+                    {
+                        await botClient.SendTextMessageAsync(chatId, "⛔ La cancha ya está reservada en ese horario.");
+                        return;
+                    }
+
+                    Reserva reserva = new Reserva
+                    {
+                        IdCancha = idCancha,
+                        IdUsuario = usuario.Usuario_id,
+                        Fecha = fecha,
+                        HoraInicio = horaInicio,
+                        HoraFin = horaFin,
+                        Estado = "PENDIENTE"
+                    };
 
                     string resultado = _reservaService.Guardar(reserva);
-
                     await botClient.SendTextMessageAsync(chatId, $"📌 {resultado}");
                 }
                 catch (Exception ex)
                 {
                     await botClient.SendTextMessageAsync(chatId, $"❌ Error al procesar la reserva: {ex.Message}");
                 }
-            }else if (contexto == "CANCELAR")
+            }
+            else if (contexto == "CANCELAR")
             {
                 try
                 {
@@ -158,6 +206,27 @@ namespace BLL
                 {
                     await botClient.SendTextMessageAsync(chatId, "❌ ID inválido. Intenta de nuevo.");
                 }
+            }
+            else if (contexto == "REALIZAR_PAGO")
+            {
+
+                string rutaImagen = "C:\\Users\\carlo\\OneDrive\\Documentos\\qr-prueba-2.jpg";
+
+                using (var stream = System.IO.File.OpenRead(rutaImagen))
+                {
+                    await botClient.SendPhotoAsync(
+                        chatId: chatId,
+                        photo: new Telegram.Bot.Types.InputFiles.InputOnlineFile(stream, "qr_reserva.jpeg"),
+                        caption: "Pago realizado con Exito"
+                    );
+
+
+                }
+
+                int idReserva = int.Parse(texto.Trim());
+                var resultado = _reservaService.Modificar(idReserva);
+                await botClient.SendTextMessageAsync(chatId, resultado);
+
             }
         }
     }

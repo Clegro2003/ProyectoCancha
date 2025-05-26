@@ -17,6 +17,11 @@ namespace BLL
             _reservaRepo = new ReservaRepository();
         }
 
+        public string Modificar(int id)
+        {
+            return _reservaRepo.ModificarEstado(id);
+        }
+
         public string Guardar(Reserva reserva)
         {
             return _reservaRepo.Guardar(reserva);
@@ -35,5 +40,11 @@ namespace BLL
         {
             return _reservaRepo.Consultar();
         }
+
+        public List<Reserva> ConsultarPorCanchaYFecha(int idCancha, DateTime fecha)
+        {
+            return _reservaRepo.Consultar().Where(r => r.IdCancha == idCancha && r.Fecha.Date == fecha.Date && r.Estado == "PENDIENTE").ToList();
+        }
     }
 }
+

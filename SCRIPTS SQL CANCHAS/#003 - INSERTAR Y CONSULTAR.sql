@@ -39,6 +39,9 @@ INSERT INTO pago (reserva_id, id_metodopago, fecha, estado, monto) VALUES
 
 select chatid,usuario_id,documento,nombre from postgres."CanchasDB".usuario 
 
+ALTER TABLE pago
+DROP COLUMN estado
+
 
 SELECT * FROM postgres."CanchasDB".reserva
 

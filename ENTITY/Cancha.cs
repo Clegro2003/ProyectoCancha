@@ -12,7 +12,7 @@ namespace ENTITY
         public string Nombre_Cancha { get; set; }
         public string Estado { get; set; }
         public decimal Precio { get; set; }
-        public TipoCancha TipoCancha { get; set; }
+        public TipoCancha TipoCanchaId { get; set; }
 
         public Cancha()
         {
@@ -25,7 +25,7 @@ namespace ENTITY
             Nombre_Cancha = nombre_Cancha;
             Estado = estado;
             Precio = precio;
-            TipoCancha = tipoCancha;
+            TipoCanchaId = tipoCancha;
         }
     }
 }

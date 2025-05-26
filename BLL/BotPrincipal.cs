@@ -8,6 +8,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using ENTITY;
 using DAL;
 using System.Collections.Generic;
+using System.IO;
 
 namespace BLL
 {
@@ -40,8 +41,9 @@ namespace BLL
                 string text = message.Text?.Trim();
                 var chatId = message.Chat.Id;
 
-                if (text.ToLower() == "hola")
+                if (!chats.ContainsKey(chatId.ToString()))
                 {
+
                     var usuarioExistente = usuarioRepo.ConsultarPorChatID(chatId.ToString());
                     if (usuarioExistente != null)
                     {
@@ -52,7 +54,8 @@ namespace BLL
                             new[]
                             {
                                 InlineKeyboardButton.WithCallbackData("RESERVAR CANCHA"),
-                                InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA DE CANCHA")
+                                InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA DE CANCHA"),
+                                InlineKeyboardButton.WithCallbackData("REALIZAR PAGO DE RESERVA")
                             }
                         });
 
@@ -135,7 +138,7 @@ namespace BLL
 
             if (update.CallbackQuery != null)
             {
-                await reservaService.ManejarAcciones(botClient, update.CallbackQuery,chats, token);
+                await reservaService.ManejarAcciones(botClient, update.CallbackQuery,chats,token);
             }
 
 

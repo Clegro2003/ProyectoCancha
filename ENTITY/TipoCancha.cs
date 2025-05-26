@@ -13,7 +13,7 @@ namespace ENTITY
 
         public TipoCancha()
         {
-            
+
         }
 
         public TipoCancha(int tipoId, string nombreCancha)
@@ -21,5 +21,12 @@ namespace ENTITY
             TipoId = tipoId;
             NombreCancha = nombreCancha;
         }
+
+        public override string ToString()
+        {
+            return $"{TipoId}: {NombreCancha}";
+
+        }
+
     }
 }

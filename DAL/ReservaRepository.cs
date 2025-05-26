@@ -153,29 +153,30 @@ namespace DAL
 
         public string ModificarEstado(int id)
         {
-            string sentencia = @"UPDATE postgres.""CanchasDB"".reserva 
-                         SET estado = 'PAGADO'
-                         WHERE reserva_id = @id";
+            string sql = @"UPDATE ""CanchasDB"".reserva 
+                   SET estado = 'PAGADO'
+                   WHERE reserva_id = @idReserva;";
 
-            try
+            using (var cmd = new NpgsqlCommand(sql, conexion))
             {
-                AbrirConexion();
-                using (var cmd = new NpgsqlCommand(sentencia, conexion))
+                cmd.Parameters.AddWithValue("@idReserva", id);
+
+                try
                 {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    int filasAfectadas = cmd.ExecuteNonQuery();
-                    return filasAfectadas > 0 ? "✅ Reserva cancelada correctamente." : "⚠️ No se encontró la reserva.";
+                    AbrirConexion();
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0 ? "Si desea realizar otro servicio ingrese cualquier tecla" : "⚠️ No se encontró la reserva.";
+                }
+                catch (Exception ex)
+                {
+                    return $"❌ Error: {ex.Message}";
+                }
+                finally
+                {
+                    CerrarConexion();
                 }
             }
-            catch (Exception ex)
-            {
-                return $"❌ Error al cancelar la reserva: {ex.Message}";
-            }
-            finally
-            {
-                CerrarConexion();
-            }
-            
+
         }
 
         public string Modificar(Reserva entity)

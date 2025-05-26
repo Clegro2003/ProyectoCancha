@@ -14,12 +14,6 @@ CREATE TABLE tipocancha (
     nombre_cancha VARCHAR(20) CHECK (nombre_cancha IN ('CON TECHO', 'SIN TECHO'))
 );
 
--- Tercera tabla a crear
-CREATE TABLE metodopago (
-    id_metodopago SERIAL PRIMARY KEY,
-    nombre_metodopago VARCHAR(50) NOT NULL
-);
-
 -- cuarta tabla a crear
 CREATE TABLE cancha (
     id_cancha SERIAL PRIMARY KEY,
@@ -28,6 +22,11 @@ CREATE TABLE cancha (
     precio numeric(10, 2),
     CONSTRAINT fk_tipo_cancha FOREIGN KEY (id_tipocancha) REFERENCES tipocancha(id_tipocancha) ON DELETE CASCADE
 );
+
+SELECT c.id_cancha , c.precio
+FROM tipocancha t
+JOIN cancha c ON t.id_tipocancha = c.id_tipocancha
+WHERE c.estado = 'DISPONIBLE' AND c.id_tipocancha = 2
 
 -- Quinta tabla a crear
 CREATE TABLE reserva(
@@ -46,13 +45,8 @@ CREATE TABLE reserva(
 CREATE TABLE pago (
     id_pago SERIAL PRIMARY KEY,
     reserva_id INT NOT NULL,
-    id_metodopago INT NOT NULL,
     fecha DATE NOT NULL,
-    estado VARCHAR(20),
     monto NUMERIC(10, 2),
-    CONSTRAINT fk_reserva_pago FOREIGN KEY (reserva_id)REFERENCES reserva(reserva_id),
-	CONSTRAINT fk_metodo_pago FOREIGN KEY (id_metodopago) REFERENCES metodoPago(id_metodopago)
+    CONSTRAINT fk_reserva_pago FOREIGN KEY (reserva_id)REFERENCES reserva(reserva_id)
 );
-
-
 
