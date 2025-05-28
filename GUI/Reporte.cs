@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace GUI
 {
@@ -26,7 +27,7 @@ namespace GUI
         {
             _BotPrincipal.Iniciar();
             btnUltimos7Dias_Click(null, null);
-            CargarGraficoPastel();
+            
             
         }
 
@@ -43,44 +44,121 @@ namespace GUI
             }
         }
 
-        private void CargarGraficoPastel()
+        private void CargarGraficoPastel(DateTime desde, DateTime hasta)
         {
-            var datos = _ServicioReporte.ObtenerPorcentajeTipoCancha();
+            var datos = _ServicioReporte.ObtenerPorcentajeTipoCancha(desde, hasta);
             ctPastel.Series[0].Points.Clear();
+            ctPastel.Series[0].ChartType = SeriesChartType.Pie;
+            ctPastel.Series[0].IsValueShownAsLabel = true; // Mostrar etiqueta
+
+            // Calcular total de reservas para sacar porcentaje
+            int total = 0;
+            foreach (DataRow row in datos.Rows)
+            {
+                total += Convert.ToInt32(row["cantidad"]);
+            }
 
             foreach (DataRow row in datos.Rows)
             {
                 string tipo = row["nombre_cancha"].ToString();
                 int cantidad = Convert.ToInt32(row["cantidad"]);
-                ctPastel.Series[0].Points.AddXY(tipo, cantidad);
+                double porcentaje = (double)cantidad / total * 100;
+
+                // Crear el punto manualmente
+                DataPoint punto = new DataPoint();
+                punto.YValues = new double[] { cantidad };
+                punto.Label = $"{porcentaje:F1}%";
+                // Ej: Techada: 45.5%
+                punto.LegendText = tipo;
+
+                ctPastel.Series[0].Points.Add(punto);
             }
+
         }
+
+
 
         private void btnHoy_Click(object sender, EventArgs e)
         {
             DateTime hoy = DateTime.Today;
-            CargarGraficoBarras(hoy, hoy);
+            CargarGraficoPastel(hoy, hoy);
+            ActualizarTotales(hoy, hoy);
+
         }
 
         private void btnUltimos7Dias_Click(object sender, EventArgs e)
         {
             DateTime hoy = DateTime.Today;
-            DateTime hace7Dias = hoy.AddDays(-6); // Incluye hoy
-            CargarGraficoBarras(hace7Dias, hoy);
+            DateTime hace7Dias = hoy.AddDays(-6);
+            
+            CargarGraficoPastel(hace7Dias, hoy);
+            ActualizarTotales(hace7Dias, hoy);
         }
 
         private void btnUltimos30Dias_Click(object sender, EventArgs e)
         {
             DateTime hoy = DateTime.Today;
-            DateTime hace30Dias = hoy.AddDays(-29); // Incluye hoy
-            CargarGraficoBarras(hace30Dias, hoy);
+            DateTime hace30Dias = hoy.AddDays(-29);
+            
+            CargarGraficoPastel(hace30Dias, hoy);
+            ActualizarTotales(hace30Dias, hoy);
         }
 
         private void btnEsteMes_Click(object sender, EventArgs e)
         {
             DateTime primerDiaMes = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
             DateTime hoy = DateTime.Today;
-            CargarGraficoBarras(primerDiaMes, hoy);
+           
+            CargarGraficoPastel(primerDiaMes, hoy);
+            ActualizarTotales(primerDiaMes, hoy);
         }
+
+
+        private void CargarGraficoPorHora(DateTime fecha)
+        {
+            var datos = _ServicioReporte.ObtenerReservasPorHora(fecha);
+            ctBarras.Series[0].Points.Clear();
+            ctBarras.Series[0].Name = "Reservas por hora";
+
+            foreach (DataRow row in datos.Rows)
+            {
+                TimeSpan hora = (TimeSpan)row["horainicio"];
+                int cantidad = Convert.ToInt32(row["cantidad"]);
+                string horaStr = hora.ToString(@"hh\:mm");
+                ctBarras.Series[0].Points.AddXY(horaStr, cantidad);
+            }
+
+            ctBarras.ChartAreas[0].AxisX.Title = "Hora de inicio";
+            ctBarras.ChartAreas[0].AxisY.Title = "Cantidad de reservas";
+            ctBarras.Titles.Clear();
+            ctBarras.Titles.Add("Reservas por hora de inicio");
+        }
+
+        private void dtpFechaHora_ValueChanged(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void btnVerPorHora_Click_1(object sender, EventArgs e)
+        {
+            DateTime fechaSeleccionada = dtpFechaHora.Value.Date;
+            CargarGraficoPorHora(fechaSeleccionada);
+        }
+
+        private void ActualizarTotales(DateTime desde, DateTime hasta)
+        {
+            int totalReservas = _ServicioReporte.ObtenerTotalReservas(desde, hasta);
+            int totalHoras = _ServicioReporte.ObtenerTotalHorasReservadas(desde, hasta);
+
+            lblTotalReservas.Text = totalReservas.ToString();
+            lblTotalHoras.Text = totalHoras.ToString();
+
+            
+            
+        }
+
+
+
     }
 }
+    

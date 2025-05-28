@@ -95,3 +95,4 @@ C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\GUI
 C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\GUI\obj\Debug\GUI.exe
 C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\GUI\obj\Debug\GUI.pdb
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\obj\Debug\GUI.Reporte.resources
+C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\GUI\obj\Debug\GUI.Reporte.resources

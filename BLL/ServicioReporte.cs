@@ -21,9 +21,29 @@ namespace BLL
             return _ReporteRepository.ReservasPorDia(desde, hasta);
         }
 
-        public DataTable ObtenerPorcentajeTipoCancha()
+        public DataTable ObtenerPorcentajeTipoCancha(DateTime desde, DateTime hasta)
         {
-            return _ReporteRepository.PorcentajeTipoCancha();
+            return _ReporteRepository.PorcentajeTipoCancha(desde, hasta);
         }
+
+
+        public DataTable ObtenerReservasPorHora(DateTime fecha)
+        {
+            return _ReporteRepository.ReservasPorHora(fecha);
+        }
+
+        public int ObtenerTotalReservas(DateTime desde, DateTime hasta)
+        {
+            return _ReporteRepository.ObtenerTotalReservas(desde, hasta);
+        }
+
+        public int ObtenerTotalHorasReservadas(DateTime desde, DateTime hasta)
+        {
+            return _ReporteRepository.ObtenerTotalHorasReservadas(desde, hasta);
+        }
+
+
+
+
     }
 }
