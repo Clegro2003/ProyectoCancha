@@ -63,6 +63,7 @@
     <Compile Include="IService.cs" />
     <Compile Include="PagoService.cs" />
     <Compile Include="ReservaService.cs" />
+    <Compile Include="ServicioReporte.cs" />
     <Compile Include="TipoCanchaService.cs" />
     <Compile Include="UsuarioService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

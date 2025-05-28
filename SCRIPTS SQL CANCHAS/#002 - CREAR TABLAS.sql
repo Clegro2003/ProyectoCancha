@@ -23,11 +23,6 @@ CREATE TABLE cancha (
     CONSTRAINT fk_tipo_cancha FOREIGN KEY (id_tipocancha) REFERENCES tipocancha(id_tipocancha) ON DELETE CASCADE
 );
 
-SELECT c.id_cancha , c.precio
-FROM tipocancha t
-JOIN cancha c ON t.id_tipocancha = c.id_tipocancha
-WHERE c.estado = 'DISPONIBLE' AND c.id_tipocancha = 2
-
 -- Quinta tabla a crear
 CREATE TABLE reserva(
 	reserva_id SERIAL PRIMARY KEY,

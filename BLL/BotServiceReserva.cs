@@ -133,11 +133,9 @@ namespace BLL
 
                     await botClient.SendTextMessageAsync(chatId, mensaje, Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
-                    // Continúa en el mismo contexto "RESERVA"
                     return;
                 }
 
-                // Paso 2: Procesar reserva si ya ingresó id_cancha, fecha, horaInicio, horaFin
                 string[] datos = texto.Replace("reservar", "").Split(',');
                 if (datos.Length < 4)
                 {
@@ -165,7 +163,6 @@ namespace BLL
                         return;
                     }
 
-                    // Verificar conflictos de horario
                     var reservasExistentes = _reservaService.ConsultarPorCanchaYFecha(idCancha, fecha);
 
                     var hayConflicto = reservasExistentes.Any(r => horaInicio < r.HoraFin && horaFin > r.HoraInicio);

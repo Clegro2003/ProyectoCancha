@@ -37,46 +37,4 @@ INSERT INTO pago (reserva_id, id_metodopago, fecha, estado, monto) VALUES
 (10, 3, '2025-05-27', 'PENDIENTE', 28000.00),
 (11, 1, '2025-05-28', 'REALIZADO', 27000.00);
 
-select chatid,usuario_id,documento,nombre from postgres."CanchasDB".usuario 
-
-ALTER TABLE pago
-DROP COLUMN estado
-
-
-SELECT * FROM postgres."CanchasDB".reserva
-
-select * from reserva
-SELECT * FROM reserva WHERE usuario_id = 25;
-
-DELETE FROM reserva
-WHERE usuario_id = 5;
-
-SELECT id_cancha,estado  FROM cancha 
-
-SELECT r.reserva_id, u.nombre, u.chatid, r.fecha, u.usuario_id,u.documento
-FROM reserva r 
-JOIN usuario u ON r.usuario_id = u.usuario_id
-
-
-SELECT u.documento, r.usuario_id,r.fecha, r.horainicio, r.horafin, r.estado
-FROM reserva r
-JOIN usuario u ON r.usuario_id = u.usuario_id
-WHERE u.usuario_id  = '2'
-
-SELECT * FROM reserva WHERE usuario_id = 18;
-
-SELECT c.id_cancha , t.nombre_cancha , precio
-FROM tipocancha t
-JOIN cancha c ON t.id_tipocancha = c.id_tipocancha
-WHERE c.estado = 'DISPONIBLE'
-
-SELECT r.reserva_id, r.usuario_id, r.id_cancha, r.fecha, r.horainicio, r.horafin, r.estado
-FROM "CanchasDB".reserva r
-WHERE r.usuario_id = 25  AND r.estado = 'PENDIENTE'
-
-drop table usuario;
-drop table reserva;
-drop table tipocancha; 
-drop table cancha;
-drop table metodopago;
-drop table pago;
+SELECT chatid,usuario_id,documento,nombre FROM usuario 
