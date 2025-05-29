@@ -18,13 +18,15 @@ namespace BLL
         private TelegramBotClient botClient;
         private UsuarioRepository usuarioRepo;
         private BotServicioReserva reservaService;
+        private UsuarioService usuarioService;
 
         public void Iniciar()
         {
-            usuarioRepo = new UsuarioRepository();
-            reservaService = new BotServicioReserva();
             botClient = new TelegramBotClient("7631036294:AAEkN7eNU-q8h0t_gKVkXZs-qeJauFCzkzw");
             StartReceiver();
+            usuarioRepo = new UsuarioRepository();
+            reservaService = new BotServicioReserva();
+            usuarioService = new UsuarioService();
         }
 
         private async void StartReceiver()
@@ -53,9 +55,9 @@ namespace BLL
                         {
                             new[]
                             {
-                                InlineKeyboardButton.WithCallbackData("RESERVAR CANCHA"),
-                                InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA DE CANCHA"),
-                                InlineKeyboardButton.WithCallbackData("REALIZAR PAGO DE RESERVA")
+                                InlineKeyboardButton.WithCallbackData("RESERVAR \nCANCHA"),
+                                InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA \nDE CANCHA"),
+                                InlineKeyboardButton.WithCallbackData("REALIZAR PAGO \nDE RESERVA")
                             }
                         });
 
@@ -104,6 +106,13 @@ namespace BLL
                         Apellido = partes[2].Trim(),
                         Telefono = partes[3].Trim()
                     };
+                    var ExisteDocumento = usuarioService.ConsultatPorID(usuario.Documento.ToString());
+
+                    if (ExisteDocumento)
+                    {
+                        await botClient.SendTextMessageAsync(chatId, "⚠️ El documento ya está registrado. No puedes usar el mismo.");
+                        return;
+                    }
 
                     string resultado = usuarioRepo.Guardar(usuario);
                     await botClient.SendTextMessageAsync(chatId, resultado, cancellationToken: token);

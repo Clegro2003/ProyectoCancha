@@ -31,5 +31,10 @@ namespace BLL
         {
             return usuarioRepository.ConsultarPorChatID(chatID);
         }
+
+        public bool ConsultatPorID(string Id)
+        {
+            return usuarioRepository.ConsultarUsuarioPorID(Id);
+        }
     }
 }

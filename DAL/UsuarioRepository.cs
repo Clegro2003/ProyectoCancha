@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace DAL
 {
@@ -27,9 +28,33 @@ namespace DAL
             return lista;
         }
 
+        public bool ConsultarUsuarioPorID(string Id)
+        {
+            bool existe = false;
+            string sentencia = @"SELECT COUNT(usuario_id) FROM ""CanchasDB"".usuario WHERE documento = @usuario_id";
+            NpgsqlCommand cmd = new NpgsqlCommand(sentencia, conexion);
+            cmd.Parameters.AddWithValue("@usuario_id", Id);
+            AbrirConexion();
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+            cmd.Parameters.AddWithValue("@documento", Id);
+            AbrirConexion();
+            var resultado = cmd.ExecuteScalar();
+
+            CerrarConexion();
+
+            if (resultado != null && Convert.ToInt32(resultado) > 0)
+            {
+                existe = true;
+            }
+
+            return existe;
+        }
+
         public Usuario ConsultarPorChatID(string chatId)
         {
-            string sentencia = "SELECT usuario_id,chatid,documento,nombre,apellido,telefono FROM postgres.\"CanchasDB\".usuario WHERE chatid = @chatid";
+            string sentencia = "SELECT usuario_id,chatid,documento,nombre,apellido,telefono " +
+                               "FROM postgres.\"CanchasDB\".usuario " +
+                               "WHERE chatid = @chatid";
 
             NpgsqlCommand cmd = new NpgsqlCommand(sentencia, conexion);
             cmd.Parameters.AddWithValue("@chatid", chatId);

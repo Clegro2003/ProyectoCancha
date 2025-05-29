@@ -37,4 +37,55 @@ INSERT INTO pago (reserva_id, id_metodopago, fecha, estado, monto) VALUES
 (10, 3, '2025-05-27', 'PENDIENTE', 28000.00),
 (11, 1, '2025-05-28', 'REALIZADO', 27000.00);
 
-SELECT chatid,usuario_id,documento,nombre FROM usuario 
+-- Reservas para el 10 de abril de 2025
+INSERT INTO reserva (usuario_id, id_cancha, fecha, horainicio, horafin, estado) VALUES
+(27, 1, '2025-04-10', '08:00', '09:00', 'PAGADO'),
+(27, 2, '2025-04-10', '09:00', '10:00', 'PENDIENTE'),
+(27, 3, '2025-04-10', '10:00', '11:00', 'PAGADO'),
+(27, 4, '2025-04-10', '11:00', '12:00', 'PAGADO');
+
+-- Reservas para el 15 de mayo de 2025
+INSERT INTO reserva (usuario_id, id_cancha, fecha, horainicio, horafin, estado) VALUES
+(27, 1, '2025-05-15', '08:00', '09:00', 'PAGADO'),
+(27, 2, '2025-05-15', '09:00', '10:00', 'PAGADO'),
+(27, 3, '2025-05-15', '10:00', '11:00', 'PENDIENTE'),
+(27, 4, '2025-05-15', '11:00', '12:00', 'PAGADO');
+
+-- Reservas para el 20 de junio de 2025
+INSERT INTO reserva (usuario_id, id_cancha, fecha, horainicio, horafin, estado) VALUES
+(27, 1, '2025-06-20', '08:00', '09:00', 'PAGADO'),
+(27, 2, '2025-06-20', '09:00', '10:00', 'PENDIENTE'),
+(27, 3, '2025-06-20', '10:00', '11:00', 'PAGADO'),
+(27, 4, '2025-06-20', '11:00', '12:00', 'PAGADO');
+ 
+-- 4 reservas para el 15 de mayo de 2025
+INSERT INTO reserva (usuario_id, id_cancha, fecha, horainicio, horafin, estado) VALUES
+(27, 1, '2025-05-15', '08:00', '09:00', 'PAGADO'),
+(27, 2, '2025-05-15', '09:00', '10:00', 'PAGADO'),
+(27, 3, '2025-05-15', '10:00', '11:00', 'PENDIENTE'),
+(27, 4, '2025-05-15', '11:00', '12:00', 'PAGADO');
+
+-- 4 reservas en otras fechas de mayo
+INSERT INTO reserva (usuario_id, id_cancha, fecha, horainicio, horafin, estado) VALUES
+(27, 1, '2025-05-10', '08:00', '09:00', 'PENDIENTE'),
+(27, 2, '2025-05-20', '09:00', '10:00', 'PAGADO'),
+(27, 3, '2025-05-25', '10:00', '11:00', 'PAGADO'),
+(27, 4, '2025-05-26', '11:00', '12:00', 'PENDIENTE');
+
+-- 5 reservas en los últimos 7 días (desde el 21 al 27 de mayo)
+INSERT INTO reserva (usuario_id, id_cancha, fecha, horainicio, horafin, estado) VALUES
+(27, 1, '2025-05-21', '14:00', '15:00', 'PAGADO'),
+(27, 2, '2025-05-23', '15:00', '16:00', 'PAGADO'),
+(27, 3, '2025-05-24', '16:00', '17:00', 'PAGADO'),
+(27, 4, '2025-05-26', '17:00', '18:00', 'PENDIENTE'),
+(27, 1, '2025-05-27', '18:00', '19:00', 'PAGADO');
+
+-- 4 reservas para el 28 de mayo de 2025
+INSERT INTO reserva (usuario_id, id_cancha, fecha, horainicio, horafin, estado) VALUES
+-- Mismo horario (08:00 - 09:00) en distintas canchas
+(27, 1, '2025-05-28', '08:00', '09:00', 'PAGADO'),
+(27, 2, '2025-05-28', '08:00', '09:00', 'PAGADO'),
+
+-- Otros horarios
+(27, 3, '2025-05-28', '09:00', '10:00', 'PENDIENTE'),
+(27, 4, '2025-05-28', '17:00', '18:00', 'PAGADO');

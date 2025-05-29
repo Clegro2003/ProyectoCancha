@@ -19,9 +19,6 @@ namespace BLL
         TipoCanchaRepository tipocancha = new TipoCanchaRepository();
         UsuarioService usuarioService = new UsuarioService();
         CanchaRepository canchaRepository = new CanchaRepository();
-        UsuarioRepository usuarioRepo = new UsuarioRepository();
-
-
 
         public async Task ManejarAcciones(ITelegramBotClient botClient, CallbackQuery callback, Dictionary<string, string> chats, CancellationToken token)
         {
@@ -129,7 +126,7 @@ namespace BLL
                                   string.Join("\n", canchasFiltradas.Select(c =>
                                      $"ID: {c.Id_cancha} | Precio: {c.Precio}"));
 
-                    mensaje += "\n\n📝 Ahora escribe en el formato:\n`id_cancha, dd-MM-yyyy, HH:mm, HH:mm`";
+                    mensaje += "\n\n📝 Ahora escribe en el formato:\n`ID Cancha, Fecha así: dd-MM-yyyy, Hora inicio, Hora final`";
 
                     await botClient.SendTextMessageAsync(chatId, mensaje, Telegram.Bot.Types.Enums.ParseMode.Markdown);
 
@@ -150,6 +147,8 @@ namespace BLL
                     DateTime fecha = DateTime.ParseExact(datos[1].Trim(), "dd-MM-yyyy", null);
                     TimeSpan horaInicio = TimeSpan.Parse(datos[2].Trim());
                     TimeSpan horaFin = TimeSpan.Parse(datos[3].Trim());
+
+
 
                     if (fecha.Date < DateTime.Today)
                     {
