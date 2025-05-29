@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using ENTITY;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -73,12 +74,12 @@ namespace DAL
 
         public DataTable ReservasPorHora(DateTime fecha)
         {
-            string query = @"
-        SELECT horainicio, COUNT(*) AS cantidad
-        FROM ""CanchasDB"".reserva
-        WHERE fecha = @fecha
-        GROUP BY horainicio
-        ORDER BY horainicio";
+                string query = @"
+            SELECT horainicio, COUNT(*) AS cantidad
+            FROM ""CanchasDB"".reserva
+            WHERE fecha = @fecha
+            GROUP BY horainicio
+            ORDER BY horainicio";
 
             using (var cmd = new NpgsqlCommand(query, conexion))
             {
@@ -97,7 +98,7 @@ namespace DAL
                     CerrarConexion();
                 }
             }
-        }
+        }   
 
         public int ObtenerTotalReservas(DateTime desde, DateTime hasta)
         {
@@ -132,6 +133,54 @@ namespace DAL
         }
 
 
+        
+        public List<Reserva> ObtenerReservasPorRango(DateTime desde, DateTime hasta)
+        {
+            var reservas = new List<Reserva>();
+            string query = @"
+                SELECT r.reserva_id, r.id_cancha, r.usuario_id, r.fecha, r.horainicio, r.horafin, r.estado,
+                       t.nombre_cancha
+                FROM ""CanchasDB"".reserva r
+                JOIN ""CanchasDB"".cancha c ON r.id_cancha = c.id_cancha
+                JOIN ""CanchasDB"".tipocancha t ON t.id_tipoCancha = c.id_tipoCancha
+                WHERE r.fecha BETWEEN @desde AND @hasta
+                ORDER BY r.fecha, r.horainicio;";
+
+            using (var cmd = new NpgsqlCommand(query, conexion))
+            {
+                cmd.Parameters.AddWithValue("@desde", desde.Date);
+                cmd.Parameters.AddWithValue("@hasta", hasta.Date);
+
+                AbrirConexion();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var cancha = new Cancha
+                        {
+                            Nombre_Cancha = reader["nombre_cancha"].ToString()
+                        };
+
+                        var reserva = new Reserva
+                        {
+                            IdReserva = Convert.ToInt32(reader["reserva_id"]),
+                            IdCancha = Convert.ToInt32(reader["id_cancha"]),
+                            IdUsuario = Convert.ToInt32(reader["usuario_id"]),
+                            Fecha = Convert.ToDateTime(reader["fecha"]),
+                            HoraInicio = (TimeSpan)reader["horainicio"],
+                            HoraFin = (TimeSpan)reader["horafin"],
+                            Estado = reader["estado"].ToString(),
+                            Cancha = cancha
+                        };
+
+                        reservas.Add(reserva);
+                    }
+                }
+                CerrarConexion();
+            }
+
+            return reservas;
+        }
 
     }
 }

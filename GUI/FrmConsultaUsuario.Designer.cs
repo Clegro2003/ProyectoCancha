@@ -39,7 +39,7 @@
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersWidth = 51;
             this.dgv.RowTemplate.Height = 24;
-            this.dgv.Size = new System.Drawing.Size(1315, 682);
+            this.dgv.Size = new System.Drawing.Size(1056, 402);
             this.dgv.TabIndex = 0;
             // 
             // FrmConsultaUsuario

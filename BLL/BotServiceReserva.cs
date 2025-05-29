@@ -207,7 +207,7 @@ namespace BLL
             else if (contexto == "REALIZAR_PAGO")
             {
 
-                string rutaImagen = "C:\\Users\\carlo\\OneDrive\\Documentos\\qr-prueba-2.jpg";
+                string rutaImagen = "C:\\Users\\carlo\\Downloads\\Proyecto de Aula P3\\Proyecto_Cancha\\IMAGENES\\qr-prueba-2.jpg";
 
                 using (var stream = System.IO.File.OpenRead(rutaImagen))
                 {

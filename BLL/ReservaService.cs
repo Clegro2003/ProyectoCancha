@@ -17,6 +17,7 @@ namespace BLL
             _reservaRepo = new ReservaRepository();
         }
 
+
         public string Modificar(int id)
         {
             return _reservaRepo.ModificarEstado(id);

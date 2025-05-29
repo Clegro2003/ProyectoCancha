@@ -1,8 +1,11 @@
 ﻿using DAL;
+using ENTITY;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +29,12 @@ namespace BLL
             return _ReporteRepository.PorcentajeTipoCancha(desde, hasta);
         }
 
+        public List<Reserva> Consultar(DateTime desde, DateTime hasta)
+        {
+            // sin filtro de fecha
+            return _ReporteRepository.ObtenerReservasPorRango(desde, hasta);
+        }
+
 
         public DataTable ObtenerReservasPorHora(DateTime fecha)
         {
@@ -41,9 +50,6 @@ namespace BLL
         {
             return _ReporteRepository.ObtenerTotalHorasReservadas(desde, hasta);
         }
-
-
-
 
     }
 }

@@ -16,19 +16,41 @@ namespace GUI
     {
         BotPrincipal _BotPrincipal;
         ServicioReporte _ServicioReporte;
+        ReservaService _ReservaService;
         public Reporte()
         {
-            _BotPrincipal = new BotPrincipal();
             InitializeComponent();
+            _BotPrincipal = new BotPrincipal();
             _ServicioReporte = new ServicioReporte();
+            _ReservaService = new ReservaService();
+        }
+
+        
+        private void CargarReserva(DateTime desde, DateTime hasta)
+        {
+            var lista = _ServicioReporte.Consultar(desde, hasta);
+            Console.WriteLine($"🔍 Total reservas consultadas: {lista}");
+            dgvDashboard.DataSource = lista.Select(r => new
+            {
+                r.IdReserva,
+                Cancha = r.Cancha.Nombre_Cancha,
+                r.Fecha,
+                r.HoraInicio,
+                r.HoraFin,
+                r.Estado
+            }).ToList();
         }
 
         private void Reporte_Load(object sender, EventArgs e)
         {
             _BotPrincipal.Iniciar();
             btnUltimos7Dias_Click(null, null);
-            
-            
+            DateTime hoy = DateTime.Today;
+            DateTime desde = new DateTime(hoy.Year, hoy.Month, 1);
+            DateTime hasta = desde.AddMonths(1).AddDays(-1);
+
+            CargarReserva(desde, hasta);
+
         }
 
         private void CargarGraficoBarras(DateTime desde, DateTime hasta)
@@ -83,6 +105,7 @@ namespace GUI
             DateTime hoy = DateTime.Today;
             CargarGraficoPastel(hoy, hoy);
             ActualizarTotales(hoy, hoy);
+            CargarReserva(hoy, hoy);
 
         }
 
@@ -93,6 +116,7 @@ namespace GUI
             
             CargarGraficoPastel(hace7Dias, hoy);
             ActualizarTotales(hace7Dias, hoy);
+            CargarReserva(hace7Dias, hoy);
         }
 
         private void btnUltimos30Dias_Click(object sender, EventArgs e)
@@ -102,6 +126,7 @@ namespace GUI
             
             CargarGraficoPastel(hace30Dias, hoy);
             ActualizarTotales(hace30Dias, hoy);
+            CargarReserva(hace30Dias, hoy);
         }
 
         private void btnEsteMes_Click(object sender, EventArgs e)
@@ -111,6 +136,7 @@ namespace GUI
            
             CargarGraficoPastel(primerDiaMes, hoy);
             ActualizarTotales(primerDiaMes, hoy);
+            CargarReserva(primerDiaMes, hoy);
         }
 
 
@@ -152,13 +178,27 @@ namespace GUI
 
             lblTotalReservas.Text = totalReservas.ToString();
             lblTotalHoras.Text = totalHoras.ToString();
-
-            
-            
         }
 
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
 
+        }
 
+        private void lblTituloTotalHorasReservadas_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblTituloTotalReservas_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
     
