@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea39 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend39 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series39 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea40 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend40 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series40 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard_Reporte));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -58,6 +59,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnminimizar = new System.Windows.Forms.PictureBox();
+            this.btncerrar = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -71,6 +74,8 @@
             this.panel1.SuspendLayout();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnminimizar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btncerrar)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -120,19 +125,19 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ctPastel.BackColor = System.Drawing.Color.SkyBlue;
-            chartArea39.Name = "ChartArea1";
-            this.ctPastel.ChartAreas.Add(chartArea39);
-            legend39.Name = "Legend1";
-            this.ctPastel.Legends.Add(legend39);
+            chartArea2.Name = "ChartArea1";
+            this.ctPastel.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.ctPastel.Legends.Add(legend2);
             this.ctPastel.Location = new System.Drawing.Point(14, 17);
             this.ctPastel.Name = "ctPastel";
             this.ctPastel.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
-            series39.ChartArea = "ChartArea1";
-            series39.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series39.LabelBorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            series39.Legend = "Legend1";
-            series39.Name = "Series1";
-            this.ctPastel.Series.Add(series39);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series2.LabelBorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.ctPastel.Series.Add(series2);
             this.ctPastel.Size = new System.Drawing.Size(849, 362);
             this.ctPastel.TabIndex = 90;
             this.ctPastel.Text = "chart1";
@@ -143,18 +148,18 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ctBarras.BackColor = System.Drawing.Color.LightGreen;
-            chartArea40.Name = "ChartArea1";
-            this.ctBarras.ChartAreas.Add(chartArea40);
-            legend40.Name = "Legend1";
-            this.ctBarras.Legends.Add(legend40);
+            chartArea1.Name = "ChartArea1";
+            this.ctBarras.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.ctBarras.Legends.Add(legend1);
             this.ctBarras.Location = new System.Drawing.Point(3, 17);
             this.ctBarras.Name = "ctBarras";
             this.ctBarras.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
-            series40.ChartArea = "ChartArea1";
-            series40.LabelBorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            series40.Legend = "Legend1";
-            series40.Name = "Series1";
-            this.ctBarras.Series.Add(series40);
+            series1.ChartArea = "ChartArea1";
+            series1.LabelBorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.ctBarras.Series.Add(series1);
             this.ctBarras.Size = new System.Drawing.Size(854, 364);
             this.ctBarras.TabIndex = 84;
             this.ctBarras.Text = "chart1";
@@ -304,6 +309,8 @@
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel7.Controls.Add(this.btncerrar);
+            this.panel7.Controls.Add(this.btnminimizar);
             this.panel7.Controls.Add(this.pictureBox1);
             this.panel7.Controls.Add(this.btnEsteMes);
             this.panel7.Controls.Add(this.btnHoy);
@@ -379,7 +386,7 @@
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox1.Image = global::GUI.Properties.Resources.WhatsApp_Image_2025_05_29_at_4_371;
-            this.pictureBox1.Location = new System.Drawing.Point(522, -16);
+            this.pictureBox1.Location = new System.Drawing.Point(522, 37);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(307, 210);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -416,13 +423,39 @@
             this.label2.Text = "RESERVAS \r\nREGISTRADAS:\r\n";
             this.label2.Click += new System.EventHandler(this.label2_Click_1);
             // 
+            // btnminimizar
+            // 
+            this.btnminimizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnminimizar.BackColor = System.Drawing.Color.SkyBlue;
+            this.btnminimizar.Image = ((System.Drawing.Image)(resources.GetObject("btnminimizar.Image")));
+            this.btnminimizar.Location = new System.Drawing.Point(785, -3);
+            this.btnminimizar.Name = "btnminimizar";
+            this.btnminimizar.Size = new System.Drawing.Size(44, 34);
+            this.btnminimizar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnminimizar.TabIndex = 107;
+            this.btnminimizar.TabStop = false;
+            this.btnminimizar.Click += new System.EventHandler(this.btnminimizar_Click);
+            // 
+            // btncerrar
+            // 
+            this.btncerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btncerrar.BackColor = System.Drawing.Color.Red;
+            this.btncerrar.Image = ((System.Drawing.Image)(resources.GetObject("btncerrar.Image")));
+            this.btncerrar.Location = new System.Drawing.Point(825, -3);
+            this.btncerrar.Name = "btncerrar";
+            this.btncerrar.Size = new System.Drawing.Size(44, 34);
+            this.btncerrar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btncerrar.TabIndex = 108;
+            this.btncerrar.TabStop = false;
+            this.btncerrar.Click += new System.EventHandler(this.btncerrar_Click);
+            // 
             // Dashboard_Reporte
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1744, 1027);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Dashboard_Reporte";
             this.Text = "Dashboard_Reporte";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -444,6 +477,8 @@
             this.panel1.PerformLayout();
             this.panel7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnminimizar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btncerrar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -474,5 +509,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox btncerrar;
+        private System.Windows.Forms.PictureBox btnminimizar;
     }
 }
