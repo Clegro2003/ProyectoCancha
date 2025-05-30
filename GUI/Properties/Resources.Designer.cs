@@ -63,6 +63,26 @@ namespace GUI.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ModeloRelacional {
+            get {
+                object obj = ResourceManager.GetObject("ModeloRelacional", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap png_clipart_computer_icons_magnifying_glass_magnifying_glass_glass_magnifier {
+            get {
+                object obj = ResourceManager.GetObject("png-clipart-computer-icons-magnifying-glass-magnifying-glass-glass-magnifier", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap WhatsApp_Image_2025_05_29_at_4_37_26_PM_removebg_preview {
             get {
                 object obj = ResourceManager.GetObject("WhatsApp_Image_2025-05-29_at_4.37.26_PM-removebg-preview", resourceCulture);

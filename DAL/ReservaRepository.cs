@@ -165,7 +165,7 @@ namespace DAL
                 {
                     AbrirConexion();
                     int filas = cmd.ExecuteNonQuery();
-                    return filas > 0 ? "Si desea realizar otro servicio ingrese cualquier tecla" : "⚠️ No se encontró la reserva.";
+                    return filas > 0 ? "----" : "⚠️ No se encontró la reserva.";
                 }
                 catch (Exception ex)
                 {

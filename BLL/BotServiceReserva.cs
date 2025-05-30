@@ -19,12 +19,14 @@ namespace BLL
         TipoCanchaRepository tipocancha = new TipoCanchaRepository();
         UsuarioService usuarioService = new UsuarioService();
         CanchaRepository canchaRepository = new CanchaRepository();
+        BotPrincipal _BotPrincipal = new BotPrincipal();
 
         public async Task ManejarAcciones(ITelegramBotClient botClient, CallbackQuery callback, Dictionary<string, string> chats, CancellationToken token)
         {
             var chatId = callback.Message.Chat.Id;
             Reserva reserva = new Reserva();
             var usuario = usuarioService.ConsultarPorChatID(chatId.ToString());
+
 
             switch (callback.Data)
             {
@@ -98,7 +100,23 @@ namespace BLL
             }
         }
 
-        public async Task ProcesarTexto(ITelegramBotClient botClient, Message message, Dictionary<string, string> chats)
+        private async Task MostrarMenuPrincipal(ITelegramBotClient botClient, long chatId, string nombreUsuario, CancellationToken token)
+        {
+            var menu = new InlineKeyboardMarkup(new[]
+            {
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("RESERVAR \nCANCHA"),
+                    InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA \nDE CANCHA"),
+                    InlineKeyboardButton.WithCallbackData("REALIZAR PAGO \nDE RESERVA")
+                }
+            });
+
+            await botClient.SendTextMessageAsync(chatId, $"🔁 ¿Qué deseas hacer ahora, {nombreUsuario}?", replyMarkup: menu, cancellationToken: token);
+        }
+
+
+        public async Task ProcesarTexto(ITelegramBotClient botClient, Message message, Dictionary<string, string> chats, CancellationToken token)
         {
             var chatId = message.Chat.Id;
             string texto = message.Text.Trim().ToLower();
@@ -184,6 +202,8 @@ namespace BLL
 
                     string resultado = _reservaService.Guardar(reserva);
                     await botClient.SendTextMessageAsync(chatId, $"📌 {resultado}");
+                    chats[chatId.ToString()] = "MENU";
+                    await MostrarMenuPrincipal(botClient, chatId, usuario.Nombre, CancellationToken.None);
                 }
                 catch (Exception ex)
                 {
@@ -197,6 +217,8 @@ namespace BLL
                     int idReserva = int.Parse(texto.Trim());
                     var resultado = _reservaService.Cancelar(idReserva);
                     await botClient.SendTextMessageAsync(chatId, resultado);
+                    chats[chatId.ToString()] = "MENU";
+                    await MostrarMenuPrincipal(botClient, chatId, usuario.Nombre, CancellationToken.None);
                 }
                 catch
                 {
@@ -205,25 +227,35 @@ namespace BLL
             }
             else if (contexto == "REALIZAR_PAGO")
             {
-
-                string rutaImagen = "C:\\Users\\carlo\\Downloads\\Proyecto de Aula P3\\Proyecto_Cancha\\IMAGENES\\qr-prueba-2.jpg";
-
-                using (var stream = System.IO.File.OpenRead(rutaImagen))
+                try
                 {
-                    await botClient.SendPhotoAsync(
-                        chatId: chatId,
-                        photo: new Telegram.Bot.Types.InputFiles.InputOnlineFile(stream, "qr_reserva.jpeg"),
-                        caption: "Pago realizado con Exito"
-                    );
+                    int idReserva = int.Parse(texto.Trim());
 
+                    string rutaImagen = "C:\\Users\\carlo\\Downloads\\Proyecto de Aula P3\\Proyecto_Cancha\\IMAGENES\\qr-prueba-2.jpg";
+                    using (var stream = System.IO.File.OpenRead(rutaImagen))
+                    {
+                        await botClient.SendPhotoAsync(
+                            chatId: chatId,
+                            photo: new Telegram.Bot.Types.InputFiles.InputOnlineFile(stream, "qr_reserva.jpeg"),
+                            caption: "Pago realizado con éxito ✅"
+                        );
+                    }
 
+                    var resultado = _reservaService.Modificar(idReserva);
+                    await botClient.SendTextMessageAsync(chatId, resultado);
+
+                    chats[chatId.ToString()] = "MENU";
+                    await MostrarMenuPrincipal(botClient, chatId, usuario.Nombre, CancellationToken.None);
+                }
+                catch
+                {
+                    await botClient.SendTextMessageAsync(chatId, "❌ Error al procesar el pago. Asegúrate de ingresar un ID válido.");
                 }
 
-                int idReserva = int.Parse(texto.Trim());
-                var resultado = _reservaService.Modificar(idReserva);
-                await botClient.SendTextMessageAsync(chatId, resultado);
-
+                return;
             }
+
         }
     }
 }
+

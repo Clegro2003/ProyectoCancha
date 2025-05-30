@@ -9,6 +9,7 @@ using ENTITY;
 using DAL;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace BLL
 {
@@ -35,6 +36,7 @@ namespace BLL
             var opt = new ReceiverOptions { AllowedUpdates = { } };
             await botClient.ReceiveAsync(OnUpdate, OnError, opt, cts.Token);
         }
+
 
         private async Task OnUpdate(ITelegramBotClient client, Update update, CancellationToken token)
         {
@@ -83,6 +85,8 @@ namespace BLL
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
                         cancellationToken: token
                     );
+
+
                     return;
                 }
 
@@ -106,6 +110,18 @@ namespace BLL
                         Apellido = partes[2].Trim(),
                         Telefono = partes[3].Trim()
                     };
+
+                    if (string.IsNullOrWhiteSpace(usuario.Documento) || usuario.Documento.Length != 10 || !usuario.Documento.All(char.IsDigit))
+                    {
+                        await botClient.SendTextMessageAsync(chatId, "⚠️ Tu documento debe tener 10 caracteres y solo numerico.");
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(usuario.Telefono) || usuario.Telefono.Length != 10 || !usuario.Telefono.All(char.IsDigit))
+                    {
+                        await botClient.SendTextMessageAsync(chatId, "⚠️ Tu teléfono debe tener 10 caracteres y solo numerico.");
+                        return;
+                    }
                     var ExisteDocumento = usuarioService.ConsultatPorID(usuario.Documento.ToString());
 
                     if (ExisteDocumento)
@@ -117,7 +133,7 @@ namespace BLL
                     string resultado = usuarioRepo.Guardar(usuario);
                     await botClient.SendTextMessageAsync(chatId, resultado, cancellationToken: token);
 
-                    if (resultado.StartsWith("Okey"))
+                    if (resultado.StartsWith("Okey... Perfecto"))
                     {
 
 
@@ -125,8 +141,10 @@ namespace BLL
                         {
                             new[]
                             {
-                                InlineKeyboardButton.WithCallbackData("RESERVAR CANCHA"),
-                                InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA DE CANCHA")
+                                InlineKeyboardButton.WithCallbackData("RESERVAR \nCANCHA"),
+                                InlineKeyboardButton.WithCallbackData("CANCELAR RESERVA \nDE CANCHA"),
+                                InlineKeyboardButton.WithCallbackData("REALIZAR PAGO \nDE RESERVA")
+
                             }
                         });
 
@@ -141,7 +159,7 @@ namespace BLL
                     return;
                 }
 
-                await reservaService.ProcesarTexto(botClient, message, chats);
+                await reservaService.ProcesarTexto(botClient, message, chats, token);
                 
             }
 

@@ -98,3 +98,4 @@ C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\obj\Debug\GUI.P
 C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\GUI\obj\Debug\GUI.Properties.Resources.resources
 C:\Users\jjrom\OneDrive\Escritorio\p3\PROYECTO\PROYECTOCANCHA\ProyectoCancha\GUI\obj\Debug\GUI.Dashboard_Reporte.resources
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\obj\Debug\GUI.Dashboard_Reporte.resources
+C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\bin\Debug\FontAwesome.Sharp.dll

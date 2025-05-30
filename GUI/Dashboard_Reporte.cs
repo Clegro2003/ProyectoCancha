@@ -1,4 +1,5 @@
 ﻿using BLL;
+using ENTITY;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,9 +19,11 @@ namespace GUI
         BotPrincipal _BotPrincipal;
         ServicioReporte _ServicioReporte;
         ReservaService _ReservaService;
+        UsuarioService _UsuarioService;
         public Dashboard_Reporte()
         {
             InitializeComponent();
+            _UsuarioService = new UsuarioService();
             _BotPrincipal = new BotPrincipal();
             _ServicioReporte = new ServicioReporte();
             _ReservaService = new ReservaService();
@@ -36,21 +39,27 @@ namespace GUI
             DateTime hasta = desde.AddMonths(1).AddDays(-1);
 
             CargarReserva(desde, hasta);
-            CargarGraficoBarras(desde, hasta);
+            CargarGraficoPorHora(hoy);
         }
         private void CargarReserva(DateTime desde, DateTime hasta)
         {
             var lista = _ServicioReporte.Consultar(desde, hasta);
+            var listaUsuarios = _UsuarioService.Consultar();
             Console.WriteLine($"🔍 Total reservas consultadas: {lista}");
-            dgvDashboard.DataSource = lista.Select(r => new
-            {
-                r.IdReserva,
-                Cancha = r.Cancha.Nombre_Cancha,
-                r.Fecha,
-                r.HoraInicio,
-                r.HoraFin,
-                r.Estado
-            }).ToList();
+            dgvDashboard.DataSource = lista.Join(listaUsuarios,
+                r => r.IdUsuario,
+                u => u.Usuario_id,
+                (r, u) => new
+                {
+                    r.IdReserva,
+                    Usuario = u.Nombre + " " + u.Apellido,
+                    Cancha = r.Cancha.Nombre_Cancha,
+                    r.Fecha,
+                    r.HoraInicio,
+                    r.HoraFin,
+                    r.Estado
+                }).ToList();
+
         }
 
         private void CargarGraficoBarras(DateTime desde, DateTime hasta)
@@ -160,6 +169,7 @@ namespace GUI
 
         }
 
+
         private void btnHoy_Click(object sender, EventArgs e)
         {
             DateTime hoy = DateTime.Today;
@@ -238,6 +248,64 @@ namespace GUI
         private void btncerrar_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void panel8_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void iconButton1_Click(object sender, EventArgs e)
+        {
+            FiltrarGrilla();
+        }
+
+        private void FiltrarGrilla()
+        {
+            string documento = txtBuscar.Text.Trim();
+
+            DateTime hoy = DateTime.Today;
+            DateTime desde = new DateTime(hoy.Year, hoy.Month, 1);
+            DateTime hasta = desde.AddMonths(1).AddDays(-1);
+
+            var listaReservas = _ServicioReporte.Consultar(desde, hasta);
+            var listaUsuarios = _UsuarioService.Consultar();
+
+            // Filtrar usuario por documento
+            var usuarioFiltrado = listaUsuarios.FirstOrDefault(u => u.Documento == documento);
+
+            if (usuarioFiltrado != null)
+            {
+                var reservasDelUsuario = listaReservas
+                    .Where(r => r.IdUsuario == usuarioFiltrado.Usuario_id)
+                    .Join(listaUsuarios,
+                        r => r.IdUsuario,
+                        u => u.Usuario_id,
+                        (r, u) => new
+                        {
+                            r.IdReserva,
+                            Usuario = u.Nombre + " " + u.Apellido,
+                            Cancha = r.Cancha?.Nombre_Cancha ?? "N/A",
+                            r.Fecha,
+                            r.HoraInicio,
+                            r.HoraFin,
+                            r.Estado
+                        }).ToList();
+
+                dgvDashboard.DataSource = reservasDelUsuario;
+                lblTotalReservas.Text = reservasDelUsuario.Count.ToString();
+            }
+            else
+            {
+                dgvDashboard.DataSource = null;
+                lblTotalReservas.Text = "0";
+            }
+        }
+
+
+        private void txtBuscar_TextChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

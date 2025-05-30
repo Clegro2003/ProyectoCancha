@@ -13,7 +13,7 @@ namespace DAL
     {
         public List<Usuario> Consultar()
         {
-            string sentencia = "SELECT documento,nombre,apellido,telefono FROM postgres.\"CanchasDB\".usuario";
+            string sentencia = "SELECT usuario_id,chatid, documento,nombre,apellido,telefono FROM postgres.\"CanchasDB\".usuario";
 
             NpgsqlCommand cmd = new NpgsqlCommand(sentencia, conexion);
             AbrirConexion();
