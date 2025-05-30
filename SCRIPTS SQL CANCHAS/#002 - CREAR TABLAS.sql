@@ -50,3 +50,9 @@ CREATE TABLE pago (
     CONSTRAINT fk_reserva_pago FOREIGN KEY (reserva_id)REFERENCES reserva(reserva_id)
 );
 
+SELECT R.usuario_id, P.fecha , P.monto, R.id_cancha
+FROM reserva r
+JOIN pago p ON r.reserva_id = p.reserva_id
+WHERE r.estado = 'PAGADO'
+
+SELECT COUNT(usuario_id) FROM usuario WHERE documento = '26991264';

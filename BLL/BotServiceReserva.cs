@@ -28,10 +28,10 @@ namespace BLL
 
             switch (callback.Data)
             {
-
-                case "RESERVAR CANCHA":
+                
+                case "RESERVAR \nCANCHA":
                     var canchas = tipocancha.Consultar();
-
+                    Console.WriteLine("jhgfdsxcvbnmlgfdnmkgfc");
                     await botClient.SendTextMessageAsync(chatId, "TIPO DE CANCHA\n " + String.Join("\n", canchas)
                                                             + $"\n¿Cual deseas {usuario.Nombre} {usuario.Apellido} ?",
                                                             Telegram.Bot.Types.Enums.ParseMode.Markdown);
@@ -40,7 +40,7 @@ namespace BLL
 
                     break;
 
-                case "CANCELAR RESERVA DE CANCHA":
+                case "CANCELAR RESERVA \nDE CANCHA":
                     if (usuario == null)
                     {
                         await botClient.SendTextMessageAsync(chatId, "⚠️ No estás registrado.");
@@ -69,7 +69,7 @@ namespace BLL
                     chats[chatId.ToString()] = "CANCELAR";
                     break;
 
-                case "REALIZAR PAGO DE RESERVA":
+                case "REALIZAR PAGO \nDE RESERVA":
                     await botClient.SendTextMessageAsync(chatId, "LISTA DE RERSERVAS A PAGAR PENDIENTES");
 
                     var Reservas = _reservaService.ConsultarReservas(usuario.Usuario_id);
