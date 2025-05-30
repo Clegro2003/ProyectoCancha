@@ -22,7 +22,7 @@ namespace GUI
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Reporte());
+            Application.Run(new Dashboard_Reporte());
         }
     }
 }

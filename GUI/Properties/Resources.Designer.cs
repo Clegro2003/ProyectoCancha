@@ -63,9 +63,19 @@ namespace GUI.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap WhatsApp_Image_2025_03_10_at_22_24_48 {
+        internal static System.Drawing.Bitmap WhatsApp_Image_2025_05_29_at_4_37_26_PM_removebg_preview {
             get {
-                object obj = ResourceManager.GetObject("WhatsApp Image 2025-03-10 at 22.24.48", resourceCulture);
+                object obj = ResourceManager.GetObject("WhatsApp_Image_2025-05-29_at_4.37.26_PM-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap WhatsApp_Image_2025_05_29_at_4_371 {
+            get {
+                object obj = ResourceManager.GetObject("WhatsApp_Image_2025-05-29_at_4.371", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

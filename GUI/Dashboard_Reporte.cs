@@ -12,12 +12,13 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace GUI
 {
-    public partial class Reporte: Form
+    public partial class Dashboard_Reporte : Form
     {
+
         BotPrincipal _BotPrincipal;
         ServicioReporte _ServicioReporte;
         ReservaService _ReservaService;
-        public Reporte()
+        public Dashboard_Reporte()
         {
             InitializeComponent();
             _BotPrincipal = new BotPrincipal();
@@ -25,7 +26,18 @@ namespace GUI
             _ReservaService = new ReservaService();
         }
 
-        
+        private void Dashboard_Reporte_Load(object sender, EventArgs e)
+        {
+            _BotPrincipal.Iniciar();
+            //this.WindowState = FormWindowState.Maximized;
+            btnUltimos7Dias_Click(null, null);
+            DateTime hoy = DateTime.Today;
+            DateTime desde = new DateTime(hoy.Year, hoy.Month, 1);
+            DateTime hasta = desde.AddMonths(1).AddDays(-1);
+
+            CargarReserva(desde, hasta);
+            CargarGraficoBarras(desde, hasta);
+        }
         private void CargarReserva(DateTime desde, DateTime hasta)
         {
             var lista = _ServicioReporte.Consultar(desde, hasta);
@@ -41,20 +53,9 @@ namespace GUI
             }).ToList();
         }
 
-        private void Reporte_Load(object sender, EventArgs e)
-        {
-            _BotPrincipal.Iniciar();
-            btnUltimos7Dias_Click(null, null);
-            DateTime hoy = DateTime.Today;
-            DateTime desde = new DateTime(hoy.Year, hoy.Month, 1);
-            DateTime hasta = desde.AddMonths(1).AddDays(-1);
-
-            CargarReserva(desde, hasta);
-
-        }
-
         private void CargarGraficoBarras(DateTime desde, DateTime hasta)
         {
+
             var datos = _ServicioReporte.ObtenerReservasPorDia(desde, hasta);
             ctBarras.Series[0].Points.Clear();
 
@@ -97,49 +98,6 @@ namespace GUI
             }
 
         }
-
-
-
-        private void btnHoy_Click(object sender, EventArgs e)
-        {
-            DateTime hoy = DateTime.Today;
-            CargarGraficoPastel(hoy, hoy);
-            ActualizarTotales(hoy, hoy);
-            CargarReserva(hoy, hoy);
-
-        }
-
-        private void btnUltimos7Dias_Click(object sender, EventArgs e)
-        {
-            DateTime hoy = DateTime.Today;
-            DateTime hace7Dias = hoy.AddDays(-6);
-            
-            CargarGraficoPastel(hace7Dias, hoy);
-            ActualizarTotales(hace7Dias, hoy);
-            CargarReserva(hace7Dias, hoy);
-        }
-
-        private void btnUltimos30Dias_Click(object sender, EventArgs e)
-        {
-            DateTime hoy = DateTime.Today;
-            DateTime hace30Dias = hoy.AddDays(-29);
-            
-            CargarGraficoPastel(hace30Dias, hoy);
-            ActualizarTotales(hace30Dias, hoy);
-            CargarReserva(hace30Dias, hoy);
-        }
-
-        private void btnEsteMes_Click(object sender, EventArgs e)
-        {
-            DateTime primerDiaMes = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-            DateTime hoy = DateTime.Today;
-           
-            CargarGraficoPastel(primerDiaMes, hoy);
-            ActualizarTotales(primerDiaMes, hoy);
-            CargarReserva(primerDiaMes, hoy);
-        }
-
-
         private void CargarGraficoPorHora(DateTime fecha)
         {
             var datos = _ServicioReporte.ObtenerReservasPorHora(fecha);
@@ -160,16 +118,6 @@ namespace GUI
             ctBarras.Titles.Add("Reservas por hora de inicio");
         }
 
-        private void dtpFechaHora_ValueChanged(object sender, EventArgs e)
-        {
-          
-        }
-
-        private void btnVerPorHora_Click_1(object sender, EventArgs e)
-        {
-            DateTime fechaSeleccionada = dtpFechaHora.Value.Date;
-            CargarGraficoPorHora(fechaSeleccionada);
-        }
 
         private void ActualizarTotales(DateTime desde, DateTime hasta)
         {
@@ -180,12 +128,83 @@ namespace GUI
             lblTotalHoras.Text = totalHoras.ToString();
         }
 
+        private void panel6_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void ctBarras_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-        private void lblTituloTotalHorasReservadas_Click(object sender, EventArgs e)
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+      
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel6_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnHoy_Click(object sender, EventArgs e)
+        {
+            DateTime hoy = DateTime.Today;
+            CargarGraficoPastel(hoy, hoy);
+            ActualizarTotales(hoy, hoy);
+            CargarReserva(hoy, hoy);
+        }
+
+        private void btnUltimos7Dias_Click(object sender, EventArgs e)
+        {
+            DateTime hoy = DateTime.Today;
+            DateTime hace7Dias = hoy.AddDays(-6);
+
+            CargarGraficoPastel(hace7Dias, hoy);
+            ActualizarTotales(hace7Dias, hoy);
+            CargarReserva(hace7Dias, hoy);
+        }
+
+        private void btnEsteMes_Click(object sender, EventArgs e)
+        {
+            DateTime primerDiaMes = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            DateTime hoy = DateTime.Today;
+
+            CargarGraficoPastel(primerDiaMes, hoy);
+            ActualizarTotales(primerDiaMes, hoy);
+            CargarReserva(primerDiaMes, hoy);
+        }
+
+        private void btnUltimos30Dias_Click(object sender, EventArgs e)
+        {
+            DateTime hoy = DateTime.Today;
+            DateTime hace30Dias = hoy.AddDays(-29);
+
+            CargarGraficoPastel(hace30Dias, hoy);
+            ActualizarTotales(hace30Dias, hoy);
+            CargarReserva(hace30Dias, hoy);
+        }
+
+        private void btnVerPorHora_Click(object sender, EventArgs e)
+        {
+            DateTime fechaSeleccionada = dtpFechaHora.Value.Date;
+            CargarGraficoPorHora(fechaSeleccionada);
+        }
+
+        private void label2_Click_1(object sender, EventArgs e)
         {
 
         }
@@ -199,6 +218,16 @@ namespace GUI
         {
 
         }
+
+        private void dtpFechaHora_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime fechaSeleccionada = dtpFechaHora.Value.Date;
+            CargarGraficoPorHora(fechaSeleccionada);
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
-    
