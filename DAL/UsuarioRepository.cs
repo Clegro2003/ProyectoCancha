@@ -31,11 +31,8 @@ namespace DAL
         public bool ConsultarUsuarioPorID(string Id)
         {
             bool existe = false;
-            string sentencia = @"SELECT COUNT(usuario_id) FROM ""CanchasDB"".usuario WHERE documento = @usuario_id";
+            string sentencia = @"SELECT COUNT(usuario_id) FROM ""CanchasDB"".usuario WHERE documento = @documento";
             NpgsqlCommand cmd = new NpgsqlCommand(sentencia, conexion);
-            cmd.Parameters.AddWithValue("@usuario_id", Id);
-            AbrirConexion();
-            NpgsqlDataReader reader = cmd.ExecuteReader();
             cmd.Parameters.AddWithValue("@documento", Id);
             AbrirConexion();
             var resultado = cmd.ExecuteScalar();
@@ -83,11 +80,6 @@ namespace DAL
             };
         }
 
-        public string Eliminar(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public string Guardar(Usuario entity)
         {
             if (entity == null || string.IsNullOrWhiteSpace(entity.Documento) || string.IsNullOrWhiteSpace(entity.Nombre) || string.IsNullOrWhiteSpace(entity.Telefono))
@@ -109,8 +101,7 @@ namespace DAL
                 try
                 {
                     AbrirConexion();
-                    object result = cmd.ExecuteScalar(); // Obtiene el ID insertado
-                    //return result != null ? $"Usuario insertado correctamente con ID {result}" : "No se ha insertado el usuario.";
+                    object result = cmd.ExecuteScalar();
                     return result != null ? $"Okey... Perfecto" : "No se ha insertado el usuario.";
                 }
                 catch (PostgresException ex)
@@ -128,10 +119,5 @@ namespace DAL
             }
         }
 
-
-        public string Modificar(Usuario entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

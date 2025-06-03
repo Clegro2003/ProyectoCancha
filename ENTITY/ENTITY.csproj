@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cancha.cs" />
-    <Compile Include="Chat.cs" />
     <Compile Include="Pago.cs" />
     <Compile Include="Reserva.cs" />
     <Compile Include="TipoCancha.cs" />

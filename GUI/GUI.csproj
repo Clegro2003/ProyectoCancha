@@ -65,24 +65,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="FrmConsultaUsuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmConsultaUsuario.Designer.cs">
-      <DependentUpon>FrmConsultaUsuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmUsuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmUsuario.Designer.cs">
-      <DependentUpon>FrmUsuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Principal.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Principal.Designer.cs">
-      <DependentUpon>Principal.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -108,15 +90,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmConsultaUsuario.resx">
-      <DependentUpon>FrmConsultaUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmUsuario.resx">
-      <DependentUpon>FrmUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Principal.resx">
-      <DependentUpon>Principal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

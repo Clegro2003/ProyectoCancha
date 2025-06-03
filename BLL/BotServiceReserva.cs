@@ -33,7 +33,6 @@ namespace BLL
                 
                 case "RESERVAR \nCANCHA":
                     var canchas = tipocancha.Consultar();
-                    Console.WriteLine("jhgfdsxcvbnmlgfdnmkgfc");
                     await botClient.SendTextMessageAsync(chatId, "TIPO DE CANCHA\n " + String.Join("\n", canchas)
                                                             + $"\n¿Cual deseas {usuario.Nombre} {usuario.Apellido} ?",
                                                             Telegram.Bot.Types.Enums.ParseMode.Markdown);
@@ -144,7 +143,7 @@ namespace BLL
                                   string.Join("\n", canchasFiltradas.Select(c =>
                                      $"ID: {c.Id_cancha} | Precio: {c.Precio}"));
 
-                    mensaje += "\n\n📝 Ahora escribe en el formato:\n`ID Cancha, Fecha así: dd-MM-yyyy, Hora inicio, Hora final`";
+                    mensaje += "\n\n📝 Ahora escribe en el formato:\n`ID Cancha, Fecha así: dd-MM-yyyy, Hora inicio(13:00), Hora final(14:00)`";
 
                     await botClient.SendTextMessageAsync(chatId, mensaje, Telegram.Bot.Types.Enums.ParseMode.Markdown);
 

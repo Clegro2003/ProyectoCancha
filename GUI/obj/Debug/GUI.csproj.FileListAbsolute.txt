@@ -33,10 +33,7 @@ C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\bin\Debug\Syste
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\obj\Debug\GUI.csproj.SuggestedBindingRedirects.cache
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\obj\Debug\GUI.exe.config
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\obj\Debug\GUI.csproj.Up2Date
-C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\obj\Debug\GUI.FrmConsultaUsuario.resources
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\obj\Debug\GUI.csproj.GenerateResource.cache
-C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\obj\Debug\GUI.FrmUsuario.resources
-C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\obj\Debug\GUI.Principal.resources
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\bin\Debug\Telegram.Bot.dll
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\bin\Debug\Newtonsoft.Json.dll
 C:\Users\carlo\Downloads\Proyecto de Aula P3\Proyecto_Cancha\GUI\bin\Debug\System.ComponentModel.Annotations.dll

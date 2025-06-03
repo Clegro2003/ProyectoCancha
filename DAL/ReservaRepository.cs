@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class ReservaRepository:BaseDatos,IRepository<Reserva>
+    public class ReservaRepository:BaseDatos
     {
         public string Guardar(Reserva entity)
         {
@@ -177,11 +177,6 @@ namespace DAL
                 }
             }
 
-        }
-
-        public string Modificar(Reserva entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

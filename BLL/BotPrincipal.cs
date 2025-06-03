@@ -28,6 +28,7 @@ namespace BLL
             usuarioRepo = new UsuarioRepository();
             reservaService = new BotServicioReserva();
             usuarioService = new UsuarioService();
+
         }
 
         private async void StartReceiver()

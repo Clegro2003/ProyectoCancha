@@ -44,12 +44,12 @@ namespace DAL
         public DataTable PorcentajeTipoCancha(DateTime desde, DateTime hasta)
         {
             string query = @"
-        SELECT tc.nombre_cancha, COUNT(*) AS cantidad
-        FROM ""CanchasDB"".reserva r
-        JOIN ""CanchasDB"".cancha c ON r.id_cancha = c.id_cancha
-        JOIN ""CanchasDB"".tipocancha tc ON c.id_tipocancha = tc.id_tipocancha
-        WHERE r.fecha BETWEEN @desde AND @hasta
-        GROUP BY tc.nombre_cancha";
+            SELECT tc.nombre_cancha, COUNT(*) AS cantidad
+                FROM ""CanchasDB"".reserva r
+                JOIN ""CanchasDB"".cancha c ON r.id_cancha = c.id_cancha
+                JOIN ""CanchasDB"".tipocancha tc ON c.id_tipocancha = tc.id_tipocancha
+                WHERE r.fecha BETWEEN @desde AND @hasta
+            GROUP BY tc.nombre_cancha";
 
             using (var cmd = new NpgsqlCommand(query, conexion))
             {
