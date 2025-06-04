@@ -242,20 +242,18 @@ Script 004 - Creacion de función
    "CANCELAR RESERVA DE CANCHA" Y "REALIZAR PAGO" y dependiendo de la necesidad del usuario solo debera clickar el boton correspondiente.
 
    ![image](https://github.com/user-attachments/assets/cb7df404-6c63-48d5-9c68-6e882d9e250f)
+
      [Imagen 1] REGISTRO DE USUARIO
 
    ![image](https://github.com/user-attachments/assets/f0b909a3-c9e0-475b-8631-ce996dcc0f5a)
-     [Imagen 2] RESERVAR CANCHA
 
   ![image](https://github.com/user-attachments/assets/c35b089f-e525-4ed4-8f3b-41df786726ce)
-   [Imagen 3] RESERVAR CANCHA
 
 * 2. Cancelar reserva.
     Al termimnar el proceso de la reserva, pregunta al usuario sobre su nueva accion. Si selecciona cancelar reserva, muestra el id del usuario y una lista con las reservas pendientes.
     Luego solicita al usuario el ID de la reserva a cancelar. Al ingresarla mosstrara el mensaja confirmando la cancelacion de la reserva.
 
    ![image](https://github.com/user-attachments/assets/cf46ebdf-22e3-42cb-8cc0-f6915612d363)
-      [Imagen 4] CANCELAR RESERVA
      
  
 * 3. Realizar pago de reserva.
@@ -265,7 +263,6 @@ Script 004 - Creacion de función
 
 ## 💻 Módulo Administrativo (WinForms)
 ![image](https://github.com/user-attachments/assets/904a5bb4-7e8e-4168-b871-aa8ef7486b68)
-[Imagen 5] DASHBOARD
 
 * **Visualización de reservas** por día, semana, mes o últimos 30 días. Estan conectado al grafico de pastel, con la tabla de las reservas realizadas, la cantidad de reservas y el total de horas reservadas.
   
