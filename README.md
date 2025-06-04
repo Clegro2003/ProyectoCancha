@@ -241,10 +241,11 @@ Script 004 - Creacion de función
    Luego del registro se muestra un mensaje de confirmacion y el bot muesttra 3 botones con las opciones "RESERVAR CANCHA",
    "CANCELAR RESERVA DE CANCHA" Y "REALIZAR PAGO" y dependiendo de la necesidad del usuario solo debera clickar el boton correspondiente.
 
-   ![image](https://github.com/user-attachments/assets/cb7df404-6c63-48d5-9c68-6e882d9e250f)
+REGISTRAR USUARIO
 
-     [Imagen 1] REGISTRO DE USUARIO
-
+   ![image](https://github.com/user-attachments/assets/f2ac208d-90a9-432c-83ca-c4be4ebea0cd)
+  
+REALIZAR RESERVA
    ![image](https://github.com/user-attachments/assets/f0b909a3-c9e0-475b-8631-ce996dcc0f5a)
 
   ![image](https://github.com/user-attachments/assets/c35b089f-e525-4ed4-8f3b-41df786726ce)
@@ -259,6 +260,9 @@ Script 004 - Creacion de función
 * 3. Realizar pago de reserva.
     Al termimnar el proceso de la reserva, pregunta al usuario sobre su nueva accion. Si selecciona realizar pago, muestra el id del usuario y una lista con las reservas pendientes.
     Luego solicita al usuario el ID de la reserva a desea pagar. Al ingresarla el ID muestra una imgen de un qr y el mensaja confirmando el pago.
+
+   ![image](https://github.com/user-attachments/assets/c46f4bda-b224-421c-8afe-bea13741b28c)
+
 ---
 
 ## 💻 Módulo Administrativo (WinForms)
