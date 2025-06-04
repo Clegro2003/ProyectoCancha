@@ -241,14 +241,16 @@ Script 004 - Creacion de función
    Luego del registro se muestra un mensaje de confirmacion y el bot muesttra 3 botones con las opciones "RESERVAR CANCHA",
    "CANCELAR RESERVA DE CANCHA" Y "REALIZAR PAGO" y dependiendo de la necesidad del usuario solo debera clickar el boton correspondiente.
 
-REGISTRAR USUARIO
+   - REGISTRAR USUARIO
 
    ![image](https://github.com/user-attachments/assets/f2ac208d-90a9-432c-83ca-c4be4ebea0cd)
   
 
-REALIZAR RESERVA
+
+   - REALIZAR RESERVA
 
    ![image](https://github.com/user-attachments/assets/eaea90ef-d0aa-413f-899d-5d1930555514)
+   
    ![image](https://github.com/user-attachments/assets/7d606c63-d69e-4c8d-94cf-6b63d106df13)
 
 
