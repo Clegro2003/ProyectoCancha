@@ -317,11 +317,11 @@ Desde `GUI`, ejecuta la `Dashboard_Reporte.cs`. Automáticamente:
 
 ---
 
-## 🤛 Autor
+## Autores
 
 > Carlos Alberto Legro De La Rosa
 > Jorge Junior Rometo Montenegro
-> Grupo 03 y 05 – Estructuras de Datos
+> Grupo 03 y 05 – Programacion de computadoras III
 > 🗕 Junio 2025
 
 ---
