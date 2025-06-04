@@ -245,10 +245,12 @@ REGISTRAR USUARIO
 
    ![image](https://github.com/user-attachments/assets/f2ac208d-90a9-432c-83ca-c4be4ebea0cd)
   
-REALIZAR RESERVA
-   ![image](https://github.com/user-attachments/assets/f0b909a3-c9e0-475b-8631-ce996dcc0f5a)
 
-  ![image](https://github.com/user-attachments/assets/c35b089f-e525-4ed4-8f3b-41df786726ce)
+REALIZAR RESERVA
+
+   ![image](https://github.com/user-attachments/assets/eaea90ef-d0aa-413f-899d-5d1930555514)
+   ![image](https://github.com/user-attachments/assets/7d606c63-d69e-4c8d-94cf-6b63d106df13)
+
 
 * 2. Cancelar reserva.
     Al termimnar el proceso de la reserva, pregunta al usuario sobre su nueva accion. Si selecciona cancelar reserva, muestra el id del usuario y una lista con las reservas pendientes.
