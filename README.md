@@ -12,10 +12,12 @@ Este proyecto es una solución integrada que permite a los usuarios **registrars
 | -------------------- | ------------------- | ------------------------------------------------ |
 | .NET Framework       | 4.7.2               | Framework para el desarrollo en WinForms         |
 | Visual Studio        | 2022+               | IDE para desarrollo de escritorio                |
+| Docker Desktop       | 4.38.0              | Usado para levantar la base de datos PostgreSQL  |
 | PostgreSQL           | 15+                 | Motor de base de datos                           |
+| DBeaver              | 25+                 | Cliente gráfico para gestionar la base de datos  |
 | Npgsql (NuGet)       | Última estable      | Conector C# ↔ PostgreSQL                         |
 | Telegram.Bot (NuGet) | 18+                 | Librería para interactuar con la API de Telegram |
-| Newtonsoft.Json      | Última estable      | Serialización de datos JSON                      |
+| FontAwesome.Sharp       | Última estable      | Iconografía moderna para WinForms             |
 
 ---
 
@@ -52,36 +54,51 @@ Proyecto_Cancha/
    Ejecuta el siguiente script base:
 
    ```sql
-   CREATE TABLE tipocancha (
-       id_tipocancha SERIAL PRIMARY KEY,
-       nombre_cancha VARCHAR(20) CHECK (nombre_cancha IN ('CON TECHO', 'SIN TECHO'))
-   );
-
-   CREATE TABLE cancha (
-       id_cancha SERIAL PRIMARY KEY,
-       nombre_cancha VARCHAR(50),
-       estado VARCHAR(20),
-       precio DECIMAL(10, 2),
-       id_tipocancha INTEGER REFERENCES tipocancha(id_tipocancha)
-   );
-
-   CREATE TABLE usuario (
-       usuario_id SERIAL PRIMARY KEY,
-       chatid TEXT NOT NULL,
-       documento VARCHAR(25) NOT NULL,
-       nombre VARCHAR(50) NOT NULL,
+   -- Crear Tabla Usuario, primera tabla a crear
+   CREATE TABLE usuario(
+   	usuario_id SERIAL PRIMARY KEY,
+   	chatid TEXT NOT NULL,
+   	documento VARCHAR(25) NOT NULL,
+   	nombre VARCHAR(50) NOT NULL,
        apellido VARCHAR(50),
        telefono VARCHAR(50) NOT NULL
    );
-
-   CREATE TABLE reserva (
-       reserva_id SERIAL PRIMARY KEY,
-       usuario_id INTEGER REFERENCES usuario(usuario_id),
-       id_cancha INTEGER REFERENCES cancha(id_cancha),
-       fecha DATE NOT NULL,
-       horainicio TIME NOT NULL,
+   
+   -- Segunda tabla a crear
+   CREATE TABLE tipocancha (
+       id_tipoCancha SERIAL PRIMARY KEY,
+       nombre_cancha VARCHAR(20) CHECK (nombre_cancha IN ('CON TECHO', 'SIN TECHO'))
+   );
+   
+   -- cuarta tabla a crear
+   CREATE TABLE cancha (
+       id_cancha SERIAL PRIMARY KEY,
+       id_tipocancha INT NOT NULL,
+       estado VARCHAR(20) CHECK (estado IN ('DISPONIBLE', 'OCUPADO')),
+       precio numeric(10, 2),
+       CONSTRAINT fk_tipo_cancha FOREIGN KEY (id_tipocancha) REFERENCES tipocancha(id_tipocancha) ON DELETE CASCADE
+   );
+   
+   -- Quinta tabla a crear
+   CREATE TABLE reserva(
+   	reserva_id SERIAL PRIMARY KEY,
+   	usuario_id INT NOT NULL,
+   	id_cancha int NOT NULL,
+   	CONSTRAINT fk_usuario FOREIGN KEY (usuario_id) REFERENCES usuario (usuario_id) ON DELETE CASCADE,
+   	fecha DATE NOT NULL,
+   	horainicio TIME NOT NULL,
        horafin TIME NOT NULL,
-       estado VARCHAR(20)
+       estado VARCHAR(50) CHECK(estado IN ('PAGADO', 'PENDIENTE') ),
+       CONSTRAINT fk_cancha FOREIGN KEY (id_cancha)REFERENCES cancha (id_cancha) ON DELETE CASCADE
+   );
+   
+   -- Sexta tabla a crear
+   CREATE TABLE pago (
+       id_pago SERIAL PRIMARY KEY,
+       reserva_id INT NOT NULL,
+       fecha DATE NOT NULL,
+       monto NUMERIC(10, 2),
+       CONSTRAINT fk_reserva_pago FOREIGN KEY (reserva_id)REFERENCES reserva(reserva_id)
    );
    ```
 
