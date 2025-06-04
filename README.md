@@ -1,6 +1,7 @@
 # 🏟️ Proyecto de Aula P3 - Sistema de Reservas de Canchas Deportivas vía Telegram
 
-Este proyecto es una solución integrada que permite a los usuarios **registrarse**, **reservar canchas**, **cancelar reservas** y **realizar pagos** directamente desde Telegram. A su vez, ofrece un **panel administrativo con reportes gráficos** sobre el uso de las canchas.
+Este proyecto es una solución integrada que permite a los usuarios **registrarse**, **reservar canchas**, **cancelar reservas** y **realizar pagos** directamente desde Telegram. A su vez, ofrece un **panel administrativo con reportes gráficos** sobre el uso de las canchas. Este proyecto representa una solución completa e innovadora para la gestión de reservas deportivas, combinando la accesibilidad de Telegram con el poder visual de un panel administrativo gráfico. Está diseñado para facilitar al máximo la experiencia del usuario final.
+Con esta herramienta, se logra automatizar gran parte del proceso manual de reservas, reducir errores humanos y optimizar el uso de las canchas disponibles. Además, se proporciona una experiencia moderna y amigable tanto para el usuario como para los administradores del sistema.
 
 ---
 
@@ -234,22 +235,46 @@ Script 004 - Creacion de función
 
 ## Iniciando el Bot
 
-*1 Registro de usuario y reserva de  cancha.
-   El documento y telefono del usuario debe contener obligratoriamente 10 caracteres numericos para que sea valido el registro.
-   ![Imagen de WhatsApp 2025-06-02 a las 20 56 21_02a820f8](https://github.com/user-attachments/assets/a0f218e4-b850-4f09-80a6-5fff871612d7)
+* 1. Registro de usuario y reserva de  cancha.
+   Primeramente si el usuaario no esta resgistrado, el bot pide sus datos personales.
+   - El documento y telefono del usuario debe contener obligratoriamente 10 caracteres numericos para que sea valido el registro.
+   Luego del registro se muestra un mensaje de confirmacion y el bot muesttra 3 botones con las opciones "RESERVAR CANCHA",
+   "CANCELAR RESERVA DE CANCHA" Y "REALIZAR PAGO" y dependiendo de la necesidad del usuario solo debera clickar el boton correspondiente.
 
+   ![image](https://github.com/user-attachments/assets/cb7df404-6c63-48d5-9c68-6e882d9e250f)
+     [Imagen 1] REGISTRO DE USUARIO
+
+   ![image](https://github.com/user-attachments/assets/f0b909a3-c9e0-475b-8631-ce996dcc0f5a)
+     [Imagen 2] RESERVAR CANCHA
+
+  ![image](https://github.com/user-attachments/assets/c35b089f-e525-4ed4-8f3b-41df786726ce)
+   [Imagen 3] RESERVAR CANCHA
+
+* 2. Cancelar reserva.
+    Al termimnar el proceso de la reserva, pregunta al usuario sobre su nueva accion. Si selecciona cancelar reserva, muestra el id del usuario y una lista con las reservas pendientes.
+    Luego solicita al usuario el ID de la reserva a cancelar. Al ingresarla mosstrara el mensaja confirmando la cancelacion de la reserva.
+
+   ![image](https://github.com/user-attachments/assets/cf46ebdf-22e3-42cb-8cc0-f6915612d363)
+      [Imagen 4] CANCELAR RESERVA
+     
+ 
+* 3. Realizar pago de reserva.
+    Al termimnar el proceso de la reserva, pregunta al usuario sobre su nueva accion. Si selecciona realizar pago, muestra el id del usuario y una lista con las reservas pendientes.
+    Luego solicita al usuario el ID de la reserva a desea pagar. Al ingresarla el ID muestra una imgen de un qr y el mensaja confirmando el pago.
 ---
 
 ## 💻 Módulo Administrativo (WinForms)
+![image](https://github.com/user-attachments/assets/904a5bb4-7e8e-4168-b871-aa8ef7486b68)
+[Imagen 5] DASHBOARD
 
-* **Visualización de reservas** por día, semana, mes o últimos 30 días.
+* **Visualización de reservas** por día, semana, mes o últimos 30 días. Estan conectado al grafico de pastel, con la tabla de las reservas realizadas, la cantidad de reservas y el total de horas reservadas.
+  
 * **Gráficos**:
-
   * Barras por día
   * Barras por hora
   * Pastel por tipo de cancha
+    
 * **Totales**:
-
   * Cantidad de reservas
   * Total de horas reservadas
 
