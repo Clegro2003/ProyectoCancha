@@ -16,9 +16,9 @@ Con esta herramienta, se logra automatizar gran parte del proceso manual de rese
 | Docker Desktop       | 4.38.0              | Usado para levantar la base de datos PostgreSQL  |
 | PostgreSQL           | 15+                 | Motor de base de datos                           |
 | DBeaver              | 25+                 | Cliente gráfico para gestionar la base de datos  |
-| Npgsql (NuGet)       | Última estable      | Conector C# ↔ PostgreSQL                         |
-| Telegram.Bot (NuGet) | 18+                 | Librería para interactuar con la API de Telegram |
-| FontAwesome.Sharp       | Última estable      | Iconografía moderna para WinForms             |
+| Npgsql (NuGet)       | 4.1.14              | Conector C# ↔ PostgreSQL                         |
+| Telegram.Bot (NuGet) | 18.0.0              | Librería para interactuar con la API de Telegram |
+| FontAwesome.Sharp    | Última estable      | Iconografía moderna para WinForms                |
 
 ---
 
