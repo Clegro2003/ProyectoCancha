@@ -325,7 +325,7 @@ Desde `GUI`, ejecuta la `Dashboard_Reporte.cs`. Automáticamente:
 
 > Grupo 03 y 05 – Programacion de computadoras III
 
-> 🗕 Junio 2025
+> Junio 2025
 
 ---
 
