@@ -49,6 +49,7 @@ namespace DAL
 
         public Usuario ConsultarPorChatID(string chatId)
         {
+            Console.WriteLine($"[DEBUG] ChatID recibido: {chatId}");
             string sentencia = "SELECT usuario_id,chatid,documento,nombre,apellido,telefono " +
                                "FROM postgres.\"CanchasDB\".usuario " +
                                "WHERE chatid = @chatid";
